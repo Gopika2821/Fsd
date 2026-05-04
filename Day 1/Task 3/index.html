@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Web Development - Wikipedia</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        background-color: #f8f9fa;
+    }
+
+    header {
+        background-color: #ffffff;
+        border-bottom: 1px solid #ccc;
+        padding: 10px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    header h1 {
+        margin: 0;
+        font-size: 22px;
+    }
+
+    header input {
+        padding: 5px;
+        width: 250px;
+    }
+
+    main {
+        display: grid;
+        grid-template-columns: 220px 1fr 250px;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    nav {
+        background: #ffffff;
+        padding: 10px;
+        border: 1px solid #ccc;
+    }
+
+    nav h2 {
+        font-size: 16px;
+    }
+
+    nav ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    nav ul li {
+        margin: 8px 0;
+    }
+
+    article {
+        background: #ffffff;
+        padding: 20px;
+        border: 1px solid #ccc;
+    }
+
+    article h1 {
+        font-size: 28px;
+        margin-top: 0;
+    }
+
+    article h2 {
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 5px;
+    }
+
+    aside {
+        background: #ffffff;
+        padding: 10px;
+        border: 1px solid #ccc;
+    }
+
+    footer {
+        background: #ffffff;
+        border-top: 1px solid #ccc;
+        text-align: center;
+        padding: 10px;
+        margin-top: 20px;
+    }
+
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header>
+    <h1>Wikipedia</h1>
+    <div>
+        <input type="text" placeholder="Search Wikipedia">
+        <button>Search</button>
+    </div>
+</header>
+
+<!-- MAIN -->
+<main>
+
+    <!-- LEFT NAV -->
+    <nav>
+        <h2>Contents</h2>
+        <ul>
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#history">History</a></li>
+            <li><a href="#see">See also</a></li>
+            <li><a href="#ref">References</a></li>
+        </ul>
+    </nav>
+
+    <!-- ARTICLE -->
+    <article>
+
+        <header>
+            <h1>Web development</h1>
+            <p>From Wikipedia, the free encyclopedia</p>
+        </header>
+
+        <section id="overview">
+            <h2>Overview</h2>
+            <p>
+                Web development is the process of designing, developing and maintaining websites and web applications.
+            </p>
+        </section>
+
+        <section id="history">
+            <h2>History</h2>
+            <p>
+                Since the early 1990s, web development has evolved from simple static pages to complex dynamic applications.
+            </p>
+        </section>
+
+        <section id="see">
+            <h2>See also</h2>
+            <ul>
+                <li>HTML</li>
+                <li>CSS</li>
+                <li>JavaScript</li>
+            </ul>
+        </section>
+
+        <section id="ref">
+            <h2>References</h2>
+            <ol>
+                <li>MDN Web Docs</li>
+                <li>W3Schools</li>
+            </ol>
+        </section>
+
+    </article>
+
+    <!-- RIGHT ASIDE -->
+    <aside>
+        <h3>Appearance</h3>
+        <p>Text: Small | Standard | Large</p>
+        <p>Width: Standard | Wide</p>
+        <p>Color: Light | Dark</p>
+    </aside>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+    <p>This page was last edited on 4 May 2026.</p>
+</footer>
+
+</body>
+</html>
