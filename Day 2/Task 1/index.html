@@ -9,12 +9,12 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --rose:    #c2856a;
+      --rose:    #b5673e; /* FIX 6: darkened from #c2856a for contrast */
       --blush:   #f5ede8;
       --petal:   #edddd4;
       --cream:   #faf7f4;
       --bark:    #3b2f2a;
-      --muted:   #9c8880;
+      --muted:   #6b5850; /* FIX 6: darkened from #9c8880 for contrast */
       --border:  #e4d8d0;
       --white:   #ffffff;
     }
@@ -29,9 +29,23 @@
       line-height: 1.8;
     }
 
-    /* ════════════════════════
-       HEADER
-    ════════════════════════ */
+    /* FIX 9: Skip link */
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: 1rem;
+      background: var(--bark);
+      color: var(--white);
+      padding: 0.6rem 1.2rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-decoration: none;
+      z-index: 9999;
+      border-radius: 0 0 4px 4px;
+    }
+    .skip-link:focus { top: 0; }
+
+    /* ════════════════════════ HEADER ════════════════════════ */
     header {
       background: var(--white);
       border-bottom: 1px solid var(--border);
@@ -69,12 +83,8 @@
       text-transform: uppercase;
     }
 
-    /* ════════════════════════
-       NAV
-    ════════════════════════ */
-    nav {
-      background: var(--bark);
-    }
+    /* ════════════════════════ NAV ════════════════════════ */
+    nav { background: var(--bark); }
 
     nav ul {
       list-style: none;
@@ -98,13 +108,9 @@
     }
 
     nav ul li a:hover,
-    nav ul li a.active {
-      color: var(--rose);
-    }
+    nav ul li a[aria-current="page"] { color: var(--rose); }
 
-    /* ════════════════════════
-       HERO BANNER (section inside main)
-    ════════════════════════ */
+    /* ════════════════════════ HERO ════════════════════════ */
     .hero {
       background: linear-gradient(135deg, #e8d5cc 0%, #f5ede8 60%, #faf7f4 100%);
       padding: 4rem 2rem;
@@ -143,13 +149,8 @@
 
     .hero a.btn:hover { background: var(--bark); }
 
-    /* ════════════════════════
-       MAIN LAYOUT
-    ════════════════════════ */
-    main {
-      max-width: 1020px;
-      margin: 0 auto;
-    }
+    /* ════════════════════════ MAIN LAYOUT ════════════════════════ */
+    main { max-width: 1020px; margin: 0 auto; }
 
     .content-wrap {
       display: grid;
@@ -159,9 +160,7 @@
       align-items: start;
     }
 
-    /* ════════════════════════
-       ARTICLES
-    ════════════════════════ */
+    /* ════════════════════════ ARTICLES ════════════════════════ */
     article {
       background: var(--white);
       border: 1px solid var(--border);
@@ -169,7 +168,6 @@
       overflow: hidden;
     }
 
-    /* article image placeholder */
     article figure {
       width: 100%;
       height: 220px;
@@ -187,12 +185,8 @@
       display: block;
     }
 
-    article figure figcaption {
-      display: none;
-    }
-
-    /* fallback emoji label when no real img */
-    article figure span {
+    /* FIX 10: emoji spans hidden from screen readers */
+    article figure span[aria-hidden="true"] {
       font-size: 3.5rem;
       opacity: 0.35;
     }
@@ -241,14 +235,14 @@
 
     article section p {
       font-size: 0.88rem;
-      color: #5c4a42;
+      color: #4a3830;
       line-height: 1.85;
     }
 
     article section ul {
       padding-left: 1.2rem;
       font-size: 0.88rem;
-      color: #5c4a42;
+      color: #4a3830;
       line-height: 2;
     }
 
@@ -290,13 +284,8 @@
       font-weight: 500;
     }
 
-    /* ════════════════════════
-       ASIDE / SIDEBAR
-    ════════════════════════ */
-    aside {
-      position: sticky;
-      top: 2rem;
-    }
+    /* ════════════════════════ ASIDE ════════════════════════ */
+    aside { position: sticky; top: 2rem; }
 
     aside section {
       background: var(--white);
@@ -306,8 +295,7 @@
     }
 
     aside section h4 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1rem;
+      font-size: 0.78rem;
       font-weight: 600;
       color: var(--bark);
       letter-spacing: 0.08em;
@@ -315,7 +303,6 @@
       border-bottom: 1px solid var(--border);
       margin-bottom: 1rem;
       text-transform: uppercase;
-      font-size: 0.78rem;
     }
 
     aside section p {
@@ -324,9 +311,7 @@
       line-height: 1.7;
     }
 
-    aside section ul {
-      list-style: none;
-    }
+    aside section ul { list-style: none; }
 
     aside section ul li {
       padding: 0.55rem 0;
@@ -350,7 +335,7 @@
       font-size: 0.75rem;
     }
 
-    /* newsletter box */
+    /* newsletter */
     aside .newsletter {
       background: var(--bark);
       border: none;
@@ -369,7 +354,18 @@
       margin-bottom: 1rem;
     }
 
-    aside .newsletter input {
+    /* FIX 8: visually hidden label */
+    .visually-hidden {
+      position: absolute;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    aside .newsletter input[type="email"] {
       width: 100%;
       padding: 0.6rem 0.8rem;
       border: 1px solid #5c4a42;
@@ -381,7 +377,7 @@
       outline: none;
     }
 
-    aside .newsletter input::placeholder { color: #9c8880; }
+    aside .newsletter input[type="email"]::placeholder { color: #9c8880; }
 
     aside .newsletter button {
       width: 100%;
@@ -398,11 +394,9 @@
       transition: background 0.2s;
     }
 
-    aside .newsletter button:hover { background: #a86d52; }
+    aside .newsletter button:hover { background: #8f4f2e; }
 
-    /* ════════════════════════
-       FOOTER
-    ════════════════════════ */
+    /* ════════════════════════ FOOTER ════════════════════════ */
     footer {
       background: var(--bark);
       color: #c9b8b0;
@@ -419,7 +413,7 @@
       letter-spacing: 0.1em;
     }
 
-    footer p {
+    footer > p {
       font-size: 0.78rem;
       letter-spacing: 0.08em;
       margin-top: 0.3rem;
@@ -433,7 +427,7 @@
     }
 
     footer nav ul li a {
-      color: #9c8880;
+      color: #c9b8b0; /* FIX 6: lightened for contrast on dark bg */
       font-size: 0.68rem;
       padding: 0.3rem 0.8rem;
     }
@@ -443,22 +437,21 @@
     footer p.copy {
       margin-top: 1.5rem;
       font-size: 0.72rem;
-      color: #5c4a42;
+      color: #a89890;
       letter-spacing: 0.1em;
     }
 
-    /* ════════════════════════
-       RESPONSIVE
-    ════════════════════════ */
+    /* ════════════════════════ RESPONSIVE ════════════════════════ */
     @media (max-width: 700px) {
-      .content-wrap {
-        grid-template-columns: 1fr;
-      }
+      .content-wrap { grid-template-columns: 1fr; }
       aside { position: static; }
     }
   </style>
 </head>
 <body>
+
+  <!-- FIX 9: Skip to main content link for keyboard users -->
+  <a class="skip-link" href="#main-content">Skip to main content</a>
 
   <!-- ── SITE HEADER ── -->
   <header>
@@ -467,10 +460,10 @@
     <p class="tagline-bottom">Science · Nature · Radiance</p>
   </header>
 
-  <!-- ── SITE NAV ── -->
-  <nav>
+  <!-- ── SITE NAV ── FIX 2: aria-label added -->
+  <nav aria-label="Main navigation">
     <ul>
-      <li><a href="#" class="active">Home</a></li>
+      <li><a href="#" aria-current="page">Home</a></li><!-- FIX 7 -->
       <li><a href="#">Skincare Tips</a></li>
       <li><a href="#">Product Reviews</a></li>
       <li><a href="#">Routines</a></li>
@@ -480,25 +473,26 @@
   </nav>
 
   <!-- ── MAIN ── -->
-  <main>
+  <main id="main-content">
 
     <!-- Hero Banner -->
-    <section class="hero">
+    <section class="hero" aria-label="Welcome banner">
       <h2>Your Skin Deserves the Best</h2>
       <p>Expert-backed skincare guides, honest product reviews, and routines crafted for every skin type.</p>
       <a href="#" class="btn">Explore Routines</a>
     </section>
 
     <!-- Blog + Sidebar -->
-    <section class="content-wrap">
+    <section class="content-wrap" aria-label="Blog content">
 
       <!-- ── ARTICLES ── -->
-      <section>
+      <section aria-label="Blog articles">
 
         <!-- Article 1 -->
         <article>
-          <figure>
-            <span>🌿</span>
+          <!-- FIX 4: figure has role + aria-label; FIX 10: emoji is aria-hidden -->
+          <figure role="img" aria-label="Decorative plant illustration for morning routine article">
+            <span aria-hidden="true">🌿</span>
           </figure>
           <header>
             <p class="category">Skincare Routine</p>
@@ -508,8 +502,8 @@
           <section>
             <h3>Why Your Morning Routine Matters</h3>
             <p>
-              Your skin repairs itself overnight — morning is when you protect that work. 
-              A proper AM routine locks in hydration, shields against UV damage, and keeps 
+              Your skin repairs itself overnight — morning is when you protect that work.
+              A proper AM routine locks in hydration, shields against UV damage, and keeps
               your skin barrier strong throughout the day.
             </p>
           </section>
@@ -524,8 +518,8 @@
             </ul>
           </section>
           <footer>
-            <a href="#" class="read-more">Read Full Article →</a>
-            <span class="tags">
+            <a href="#" class="read-more" aria-label="Read full article: Morning Skincare Routine">Read Full Article →</a>
+            <span class="tags" aria-label="Tags">
               <span>Routine</span>
               <span>Glow</span>
             </span>
@@ -534,8 +528,8 @@
 
         <!-- Article 2 -->
         <article>
-          <figure>
-            <span>✨</span>
+          <figure role="img" aria-label="Decorative sparkle illustration for ingredients article">
+            <span aria-hidden="true">✨</span>
           </figure>
           <header>
             <p class="category">Ingredients Spotlight</p>
@@ -545,30 +539,30 @@
           <section>
             <h3>What is Niacinamide?</h3>
             <p>
-              Niacinamide (Vitamin B3) is a gentle, multi-tasking powerhouse. It minimises pores, 
-              fades dark spots, controls oil production, and strengthens the skin barrier — 
+              Niacinamide (Vitamin B3) is a gentle, multi-tasking powerhouse. It minimises pores,
+              fades dark spots, controls oil production, and strengthens the skin barrier —
               all with minimal irritation. Perfect for beginners and sensitive skin types.
             </p>
           </section>
           <section>
             <h3>What is Retinol?</h3>
             <p>
-              Retinol is a Vitamin A derivative renowned for tackling fine lines, acne, 
-              and uneven texture. It speeds up cell turnover, but requires a slow introduction 
+              Retinol is a Vitamin A derivative renowned for tackling fine lines, acne,
+              and uneven texture. It speeds up cell turnover, but requires a slow introduction
               to avoid redness and peeling. Best suited for those comfortable with actives.
             </p>
           </section>
           <section>
             <h3>Can You Use Both?</h3>
             <p>
-              Yes — but not at the same time. Use niacinamide in the morning and retinol 
-              only at night. Together over time, they complement each other beautifully 
+              Yes — but not at the same time. Use niacinamide in the morning and retinol
+              only at night. Together over time, they complement each other beautifully
               for a refined, even complexion.
             </p>
           </section>
           <footer>
-            <a href="#" class="read-more">Read Full Article →</a>
-            <span class="tags">
+            <a href="#" class="read-more" aria-label="Read full article: Niacinamide vs Retinol">Read Full Article →</a>
+            <span class="tags" aria-label="Tags">
               <span>Ingredients</span>
               <span>Anti-Aging</span>
             </span>
@@ -577,8 +571,8 @@
 
         <!-- Article 3 -->
         <article>
-          <figure>
-            <span>🌙</span>
+          <figure role="img" aria-label="Decorative moon illustration for night care article">
+            <span aria-hidden="true">🌙</span>
           </figure>
           <header>
             <p class="category">Night Care</p>
@@ -588,8 +582,8 @@
           <section>
             <h3>Why Night Cream is Different</h3>
             <p>
-              While you sleep, skin enters repair mode. A good night cream is richer, 
-              packed with peptides, ceramides, and nourishing oils — ingredients that 
+              While you sleep, skin enters repair mode. A good night cream is richer,
+              packed with peptides, ceramides, and nourishing oils — ingredients that
               would feel heavy in the day but work perfectly overnight.
             </p>
           </section>
@@ -604,8 +598,8 @@
             </ul>
           </section>
           <footer>
-            <a href="#" class="read-more">Read Full Article →</a>
-            <span class="tags">
+            <a href="#" class="read-more" aria-label="Read full article: Night Creams That Actually Work">Read Full Article →</a>
+            <span class="tags" aria-label="Tags">
               <span>Reviews</span>
               <span>Night Care</span>
             </span>
@@ -616,7 +610,7 @@
       <!-- ── END ARTICLES ── -->
 
       <!-- ── SIDEBAR ── -->
-      <aside>
+      <aside aria-label="Sidebar">
 
         <section>
           <h4>About GlowScript</h4>
@@ -637,34 +631,41 @@
         <section>
           <h4>Categories</h4>
           <ul>
-            <li><a href="#">Skincare Routines</a> <span>12</span></li>
-            <li><a href="#">Ingredients</a> <span>9</span></li>
-            <li><a href="#">Product Reviews</a> <span>15</span></li>
-            <li><a href="#">Night Care</a> <span>7</span></li>
-            <li><a href="#">Sun Protection</a> <span>5</span></li>
+            <li><a href="#">Skincare Routines <span aria-label="12 posts">12</span></a></li>
+            <li><a href="#">Ingredients <span aria-label="9 posts">9</span></a></li>
+            <li><a href="#">Product Reviews <span aria-label="15 posts">15</span></a></li>
+            <li><a href="#">Night Care <span aria-label="7 posts">7</span></a></li>
+            <li><a href="#">Sun Protection <span aria-label="5 posts">5</span></a></li>
           </ul>
         </section>
 
+        <!-- FIX 5 & FIX 8: label added for email input -->
         <section class="newsletter">
           <h4>Glow in Your Inbox</h4>
           <p>Get weekly skincare tips and exclusive product picks — no spam, ever.</p>
-          <input type="email" placeholder="your@email.com" />
-          <button type="button">Subscribe</button>
+          <label for="newsletter-email" class="visually-hidden">Email address</label>
+          <input
+            type="email"
+            id="newsletter-email"
+            name="newsletter-email"
+            placeholder="your@email.com"
+            aria-label="Enter your email address to subscribe"
+          />
+          <button type="button" aria-label="Subscribe to newsletter">Subscribe</button>
         </section>
 
       </aside>
       <!-- ── END SIDEBAR ── -->
 
     </section>
-    <!-- ── END CONTENT WRAP ── -->
 
   </main>
 
-  <!-- ── SITE FOOTER ── -->
+  <!-- ── SITE FOOTER ── FIX 3: aria-label on footer nav -->
   <footer>
     <h3>GlowScript</h3>
     <p>Science · Nature · Radiance</p>
-    <nav>
+    <nav aria-label="Footer navigation">
       <ul>
         <li><a href="#">Home</a></li>
         <li><a href="#">About</a></li>
@@ -673,7 +674,7 @@
         <li><a href="#">Instagram</a></li>
       </ul>
     </nav>
-    <p class="copy">© 2025 GlowScript · All rights reserved · Made with 🌿</p>
+    <p class="copy">© 2025 GlowScript · All rights reserved · Made with <span aria-label="love">🌿</span></p>
   </footer>
 
 </body>
