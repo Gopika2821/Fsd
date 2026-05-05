@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Student Registration Form</title>
+  <title>Accessible Contact Form</title>
   <style>
+    /* ── Reset & Base ── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
@@ -18,9 +19,10 @@
       padding: 2rem 1rem;
     }
 
+    /* ── Page Wrapper ── */
     .page-wrapper {
       width: 100%;
-      max-width: 700px;
+      max-width: 680px;
     }
 
     h1 {
@@ -41,6 +43,7 @@
       font-weight: 600;
     }
 
+    /* ── Form Card ── */
     .form-card {
       background: #ffffff;
       border-radius: 16px;
@@ -72,6 +75,7 @@
       gap: 1.5rem;
     }
 
+    /* ── Fieldset ── */
     fieldset {
       border: 1.5px solid #e2e8f0;
       border-radius: 12px;
@@ -79,7 +83,7 @@
     }
 
     legend {
-      font-size: 0.78rem;
+      font-size: 0.8rem;
       font-weight: 700;
       letter-spacing: 0.08em;
       text-transform: uppercase;
@@ -88,11 +92,14 @@
       padding: 0 8px;
     }
 
+    /* ── Field ── */
     .field {
       margin-top: 1rem;
     }
 
-    .field:first-of-type { margin-top: 0.75rem; }
+    .field:first-of-type {
+      margin-top: 0.75rem;
+    }
 
     .field label {
       display: block;
@@ -108,11 +115,10 @@
       font-weight: 700;
     }
 
+    /* ── Inputs ── */
     input[type="text"],
     input[type="email"],
     input[type="tel"],
-    input[type="date"],
-    input[type="number"],
     select,
     textarea {
       width: 100%;
@@ -132,8 +138,6 @@
     input[type="text"]:focus,
     input[type="email"]:focus,
     input[type="tel"]:focus,
-    input[type="date"]:focus,
-    input[type="number"]:focus,
     select:focus,
     textarea:focus {
       border-color: #4a6cf7;
@@ -141,6 +145,7 @@
       box-shadow: 0 0 0 3px rgba(74, 108, 247, 0.15);
     }
 
+    /* Aria-invalid styling */
     input[aria-invalid="true"],
     select[aria-invalid="true"],
     textarea[aria-invalid="true"] {
@@ -157,7 +162,7 @@
     }
 
     textarea {
-      min-height: 90px;
+      min-height: 120px;
       resize: vertical;
       line-height: 1.6;
     }
@@ -169,25 +174,14 @@
       margin-top: 5px;
     }
 
-    .error-msg {
-      font-size: 0.8rem;
-      color: #c0392b;
-      margin-top: 4px;
-      display: none;
-    }
-
+    /* ── Grid ── */
     .grid-2 {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 1rem;
     }
 
-    .grid-3 {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 1rem;
-    }
-
+    /* ── Radio & Checkbox ── */
     .radio-options,
     .checkbox-options {
       display: flex;
@@ -196,16 +190,8 @@
       margin-top: 0.75rem;
     }
 
-    .radio-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px 24px;
-      margin-top: 0.75rem;
-    }
-
     .radio-options label,
-    .checkbox-options label,
-    .radio-row label {
+    .checkbox-options label {
       display: flex;
       align-items: center;
       gap: 10px;
@@ -231,50 +217,15 @@
       border-radius: 3px;
     }
 
-    /* Photo upload */
-    .upload-box {
-      border: 2px dashed #cbd5e0;
-      border-radius: 10px;
-      padding: 1.25rem;
-      text-align: center;
-      background: #f8fafc;
-      cursor: pointer;
-      transition: border-color 0.2s;
-    }
-
-    .upload-box:hover { border-color: #4a6cf7; }
-
-    .upload-box input[type="file"] {
-      display: none;
-    }
-
-    .upload-box .upload-label {
-      font-size: 0.88rem;
-      color: #4a6cf7;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .upload-box .upload-hint {
-      font-size: 0.78rem;
-      color: #718096;
+    /* ── Error message ── */
+    .error-msg {
+      font-size: 0.8rem;
+      color: #c0392b;
       margin-top: 4px;
-    }
-
-    #photo-preview {
       display: none;
-      margin-top: 10px;
     }
 
-    #photo-preview img {
-      width: 80px;
-      height: 80px;
-      object-fit: cover;
-      border-radius: 50%;
-      border: 2px solid #4a6cf7;
-    }
-
-    /* Submit */
+    /* ── Submit Button ── */
     .btn-submit {
       width: 100%;
       padding: 14px;
@@ -290,588 +241,387 @@
       transition: background 0.2s, transform 0.15s;
     }
 
-    .btn-submit:hover { background: #2d2d4e; }
-    .btn-submit:active { transform: scale(0.98); }
+    .btn-submit:hover {
+      background: #2d2d4e;
+    }
+
+    .btn-submit:active {
+      transform: scale(0.98);
+    }
+
     .btn-submit:focus-visible {
       outline: 3px solid #4a6cf7;
       outline-offset: 3px;
     }
 
-    /* Success */
+    /* ── Success Banner ── */
     .success-banner {
       display: none;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
       background: #eafaf1;
       border: 1.5px solid #2ecc71;
       border-radius: 10px;
-      padding: 16px 18px;
+      padding: 14px 18px;
       font-size: 0.9rem;
       color: #1a7a42;
       font-weight: 500;
     }
 
-    .success-banner .icon { font-size: 1.4rem; flex-shrink: 0; }
-
-    .sr-only {
-      position: absolute;
-      width: 1px; height: 1px;
-      overflow: hidden;
-      clip: rect(0,0,0,0);
-      white-space: nowrap;
+    .success-banner .icon {
+      font-size: 1.3rem;
+      flex-shrink: 0;
     }
 
-    @media (max-width: 580px) {
+    /* ── Responsive ── */
+    @media (max-width: 520px) {
       form { padding: 1.25rem; }
-      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+      .grid-2 { grid-template-columns: 1fr; }
       h1 { font-size: 1.5rem; }
     }
   </style>
 </head>
 <body>
 
-<div class="page-wrapper">
+  <div class="page-wrapper">
 
-  <h1>Student Registration</h1>
-  <p class="page-subtitle">
-    Fields marked with <span aria-hidden="true">*</span>
-    <span class="sr-only">an asterisk</span> are required.
-  </p>
+    <h1>Contact Us</h1>
+    <p class="page-subtitle">
+      Fields marked with <span aria-hidden="true">*</span>
+      <span class="sr-only">an asterisk</span> are required.
+    </p>
 
-  <div class="form-card">
+    <div class="form-card">
 
-    <div class="form-header" role="banner">
-      <h2>New Student Enrollment Form</h2>
-      <p>Please fill in accurate details. All information is kept confidential.</p>
-    </div>
-
-    <form id="reg-form" novalidate aria-label="Student registration form">
-
-      <!-- ── 1. Personal Details ── -->
-      <fieldset>
-        <legend>Personal Details</legend>
-
-        <div class="grid-3">
-          <div class="field">
-            <label for="first-name">
-              First Name <span class="required-star" aria-hidden="true">*</span>
-            </label>
-            <input type="text" id="first-name" name="first_name"
-              aria-required="true"
-              aria-describedby="fname-hint fname-error"
-              autocomplete="given-name"
-              placeholder="Priya" />
-            <span id="fname-hint" class="hint">As per official records</span>
-            <span id="fname-error" class="error-msg" role="alert">First name is required.</span>
-          </div>
-
-          <div class="field">
-            <label for="middle-name">Middle Name</label>
-            <input type="text" id="middle-name" name="middle_name"
-              autocomplete="additional-name"
-              placeholder="Kumar" />
-          </div>
-
-          <div class="field">
-            <label for="last-name">
-              Last Name <span class="required-star" aria-hidden="true">*</span>
-            </label>
-            <input type="text" id="last-name" name="last_name"
-              aria-required="true"
-              aria-describedby="lname-error"
-              autocomplete="family-name"
-              placeholder="Sharma" />
-            <span id="lname-error" class="error-msg" role="alert">Last name is required.</span>
-          </div>
-        </div>
-
-        <div class="grid-2">
-          <div class="field">
-            <label for="dob">
-              Date of Birth <span class="required-star" aria-hidden="true">*</span>
-            </label>
-            <input type="date" id="dob" name="dob"
-              aria-required="true"
-              aria-describedby="dob-hint dob-error" />
-            <span id="dob-hint" class="hint">Must be 5–25 years old</span>
-            <span id="dob-error" class="error-msg" role="alert">Please enter a valid date of birth.</span>
-          </div>
-
-          <div class="field">
-            <label for="nationality">
-              Nationality <span class="required-star" aria-hidden="true">*</span>
-            </label>
-            <select id="nationality" name="nationality"
-              aria-required="true"
-              aria-describedby="nationality-error">
-              <option value="" disabled selected>— Select —</option>
-              <option value="indian">Indian</option>
-              <option value="american">American</option>
-              <option value="british">British</option>
-              <option value="canadian">Canadian</option>
-              <option value="australian">Australian</option>
-              <option value="other">Other</option>
-            </select>
-            <span id="nationality-error" class="error-msg" role="alert">Please select your nationality.</span>
-          </div>
-        </div>
-
-        <!-- Gender (Radio) -->
-        <div class="field">
-          <span id="gender-label" style="display:block;font-size:0.875rem;font-weight:600;color:#2d3748;margin-bottom:6px;">
-            Gender <span class="required-star" aria-hidden="true">*</span>
-          </span>
-          <div class="radio-row"
-            role="group"
-            aria-labelledby="gender-label"
-            aria-required="true"
-            aria-describedby="gender-error">
-            <label>
-              <input type="radio" name="gender" id="gender-male" value="male" aria-required="true" />
-              Male
-            </label>
-            <label>
-              <input type="radio" name="gender" id="gender-female" value="female" />
-              Female
-            </label>
-            <label>
-              <input type="radio" name="gender" id="gender-other" value="other" />
-              Other
-            </label>
-            <label>
-              <input type="radio" name="gender" id="gender-prefer-not" value="prefer_not" />
-              Prefer not to say
-            </label>
-          </div>
-          <span id="gender-error" class="error-msg" role="alert">Please select your gender.</span>
-        </div>
-
-        <!-- Photo Upload -->
-        <div class="field">
-          <label id="photo-label">
-            Passport Photo
-            <span class="hint" style="display:inline; font-weight:400;">(optional)</span>
-          </label>
-          <div class="upload-box" onclick="document.getElementById('photo-upload').click()"
-            role="button" tabindex="0" aria-labelledby="photo-label"
-            onkeydown="if(event.key==='Enter'||event.key===' ')document.getElementById('photo-upload').click()">
-            <input type="file" id="photo-upload" name="photo"
-              accept="image/*"
-              aria-describedby="photo-hint"
-              onchange="previewPhoto(this)" />
-            <span class="upload-label">Click to upload photo</span>
-            <p class="upload-hint" id="photo-hint">JPG or PNG, max 2MB, square preferred</p>
-            <div id="photo-preview" aria-live="polite">
-              <img id="preview-img" src="" alt="Photo preview" />
-            </div>
-          </div>
-        </div>
-
-      </fieldset>
-
-      <!-- ── 2. Contact Information ── -->
-      <fieldset>
-        <legend>Contact Information</legend>
-
-        <div class="field">
-          <label for="email">
-            Email Address <span class="required-star" aria-hidden="true">*</span>
-          </label>
-          <input type="email" id="email" name="email"
-            aria-required="true"
-            aria-describedby="email-hint email-error"
-            autocomplete="email"
-            placeholder="priya@example.com" />
-          <span id="email-hint" class="hint">Used for login and communications</span>
-          <span id="email-error" class="error-msg" role="alert">Please enter a valid email address.</span>
-        </div>
-
-        <div class="grid-2">
-          <div class="field">
-            <label for="phone">
-              Mobile Number <span class="required-star" aria-hidden="true">*</span>
-            </label>
-            <input type="tel" id="phone" name="phone"
-              aria-required="true"
-              aria-describedby="phone-hint phone-error"
-              autocomplete="tel"
-              placeholder="+91 98765 43210" />
-            <span id="phone-hint" class="hint">Include country code</span>
-            <span id="phone-error" class="error-msg" role="alert">Please enter a valid phone number.</span>
-          </div>
-
-          <div class="field">
-            <label for="alt-phone">Alternate Phone</label>
-            <input type="tel" id="alt-phone" name="alt_phone"
-              autocomplete="tel"
-              placeholder="Optional" />
-          </div>
-        </div>
-
-        <div class="field">
-          <label for="address">
-            Residential Address <span class="required-star" aria-hidden="true">*</span>
-          </label>
-          <textarea id="address" name="address"
-            aria-required="true"
-            aria-describedby="address-error"
-            placeholder="Door No, Street, City, State, PIN Code"></textarea>
-          <span id="address-error" class="error-msg" role="alert">Please enter your residential address.</span>
-        </div>
-
-      </fieldset>
-
-      <!-- ── 3. Academic Details ── -->
-      <fieldset>
-        <legend>Academic Details</legend>
-
-        <div class="grid-2">
-          <div class="field">
-            <label for="course">
-              Course / Program <span class="required-star" aria-hidden="true">*</span>
-            </label>
-            <select id="course" name="course"
-              aria-required="true"
-              aria-describedby="course-error">
-              <option value="" disabled selected>— Select course —</option>
-              <optgroup label="Undergraduate">
-                <option value="bsc_cs">B.Sc Computer Science</option>
-                <option value="bsc_math">B.Sc Mathematics</option>
-                <option value="bcom">B.Com</option>
-                <option value="bba">BBA</option>
-                <option value="btech">B.Tech</option>
-              </optgroup>
-              <optgroup label="Postgraduate">
-                <option value="msc_cs">M.Sc Computer Science</option>
-                <option value="mba">MBA</option>
-                <option value="mtech">M.Tech</option>
-              </optgroup>
-              <optgroup label="Diploma">
-                <option value="dca">DCA</option>
-                <option value="pgdca">PGDCA</option>
-              </optgroup>
-            </select>
-            <span id="course-error" class="error-msg" role="alert">Please select a course.</span>
-          </div>
-
-          <div class="field">
-            <label for="academic-year">
-              Academic Year <span class="required-star" aria-hidden="true">*</span>
-            </label>
-            <select id="academic-year" name="academic_year"
-              aria-required="true"
-              aria-describedby="year-error">
-              <option value="" disabled selected>— Select year —</option>
-              <option value="2024-25">2024–25</option>
-              <option value="2025-26">2025–26</option>
-              <option value="2026-27">2026–27</option>
-            </select>
-            <span id="year-error" class="error-msg" role="alert">Please select an academic year.</span>
-          </div>
-        </div>
-
-        <div class="grid-2">
-          <div class="field">
-            <label for="prev-school">Previous Institution</label>
-            <input type="text" id="prev-school" name="prev_school"
-              aria-describedby="prev-school-hint"
-              placeholder="Name of school / college" />
-            <span id="prev-school-hint" class="hint">Last attended institution</span>
-          </div>
-
-          <div class="field">
-            <label for="prev-percent">
-              Previous Score / Percentage
-            </label>
-            <input type="number" id="prev-percent" name="prev_percent"
-              aria-describedby="percent-hint"
-              min="0" max="100" step="0.01"
-              placeholder="e.g. 87.5" />
-            <span id="percent-hint" class="hint">Enter percentage (0–100)</span>
-          </div>
-        </div>
-
-        <!-- Medium of instruction (Radio) -->
-        <div class="field">
-          <span id="medium-label" style="display:block;font-size:0.875rem;font-weight:600;color:#2d3748;margin-bottom:6px;">
-            Medium of Instruction <span class="required-star" aria-hidden="true">*</span>
-          </span>
-          <div class="radio-row"
-            role="group"
-            aria-labelledby="medium-label"
-            aria-required="true"
-            aria-describedby="medium-error">
-            <label>
-              <input type="radio" name="medium" id="medium-english" value="english" aria-required="true" />
-              English
-            </label>
-            <label>
-              <input type="radio" name="medium" id="medium-tamil" value="tamil" />
-              Tamil
-            </label>
-            <label>
-              <input type="radio" name="medium" id="medium-hindi" value="hindi" />
-              Hindi
-            </label>
-            <label>
-              <input type="radio" name="medium" id="medium-bilingual" value="bilingual" />
-              Bilingual
-            </label>
-          </div>
-          <span id="medium-error" class="error-msg" role="alert">Please select a medium of instruction.</span>
-        </div>
-
-      </fieldset>
-
-      <!-- ── 4. Guardian Details ── -->
-      <fieldset>
-        <legend>Guardian / Parent Details</legend>
-
-        <div class="grid-2">
-          <div class="field">
-            <label for="guardian-name">
-              Guardian Name <span class="required-star" aria-hidden="true">*</span>
-            </label>
-            <input type="text" id="guardian-name" name="guardian_name"
-              aria-required="true"
-              aria-describedby="guardian-error"
-              placeholder="Full name of parent / guardian" />
-            <span id="guardian-error" class="error-msg" role="alert">Guardian name is required.</span>
-          </div>
-
-          <div class="field">
-            <label for="relation">
-              Relationship <span class="required-star" aria-hidden="true">*</span>
-            </label>
-            <select id="relation" name="relation"
-              aria-required="true"
-              aria-describedby="relation-error">
-              <option value="" disabled selected>— Select —</option>
-              <option value="father">Father</option>
-              <option value="mother">Mother</option>
-              <option value="guardian">Legal Guardian</option>
-              <option value="sibling">Sibling</option>
-              <option value="spouse">Spouse</option>
-            </select>
-            <span id="relation-error" class="error-msg" role="alert">Please select the relationship.</span>
-          </div>
-        </div>
-
-        <div class="grid-2">
-          <div class="field">
-            <label for="guardian-phone">
-              Guardian Phone <span class="required-star" aria-hidden="true">*</span>
-            </label>
-            <input type="tel" id="guardian-phone" name="guardian_phone"
-              aria-required="true"
-              aria-describedby="gphone-error"
-              placeholder="+91 98765 00000" />
-            <span id="gphone-error" class="error-msg" role="alert">Guardian phone number is required.</span>
-          </div>
-
-          <div class="field">
-            <label for="guardian-email">Guardian Email</label>
-            <input type="email" id="guardian-email" name="guardian_email"
-              autocomplete="email"
-              placeholder="optional@example.com" />
-          </div>
-        </div>
-
-      </fieldset>
-
-      <!-- ── 5. Consent & Declarations ── -->
-      <fieldset>
-        <legend>Declarations &amp; Consent</legend>
-
-        <div class="checkbox-options">
-
-          <label>
-            <input type="checkbox" id="terms" name="terms" value="agreed"
-              aria-required="true"
-              aria-describedby="terms-hint terms-error" />
-            I have read and agree to the
-            <a href="#" style="color:#4a6cf7;text-decoration:underline;">Terms &amp; Conditions</a>
-            <span class="required-star" aria-hidden="true">*</span>
-          </label>
-          <span id="terms-hint" class="hint" style="padding-left:28px;">Required to complete registration</span>
-          <span id="terms-error" class="error-msg" role="alert" style="padding-left:28px;">You must agree to the Terms &amp; Conditions.</span>
-
-          <label>
-            <input type="checkbox" id="accuracy" name="accuracy" value="confirmed"
-              aria-required="true"
-              aria-describedby="accuracy-hint accuracy-error" />
-            I confirm that all information provided is accurate and true.
-            <span class="required-star" aria-hidden="true">*</span>
-          </label>
-          <span id="accuracy-hint" class="hint" style="padding-left:28px;">False information may lead to cancellation</span>
-          <span id="accuracy-error" class="error-msg" role="alert" style="padding-left:28px;">Please confirm your information is accurate.</span>
-
-          <label>
-            <input type="checkbox" id="newsletter" name="newsletter" value="yes"
-              aria-describedby="newsletter-hint" />
-            Subscribe to institution updates and newsletters
-          </label>
-          <span id="newsletter-hint" class="hint" style="padding-left:28px;">Optional — unsubscribe anytime</span>
-
-        </div>
-      </fieldset>
-
-      <!-- Submit -->
-      <button type="submit" class="btn-submit" aria-describedby="form-status">
-        Register Now
-      </button>
-
-      <!-- Success Banner -->
-      <div id="success-banner"
-        class="success-banner"
-        role="alert"
-        aria-live="assertive"
-        aria-atomic="true"
-        tabindex="-1">
-        <span class="icon" aria-hidden="true">✓</span>
-        <div>
-          <strong>Registration Successful!</strong><br />
-          <span style="font-weight:400;">Your details have been submitted. Check your email for the confirmation.</span>
-        </div>
+      <div class="form-header" role="banner">
+        <h2>Send Us a Message</h2>
+        <p>We'll get back to you within 1–2 business days.</p>
       </div>
 
-      <span id="form-status" aria-live="polite" class="sr-only"></span>
+      <!-- novalidate: we handle validation manually with ARIA -->
+      <form id="contact-form" novalidate aria-label="Contact form">
 
-    </form>
+        <!-- ── Section 1: Personal Info ── -->
+        <fieldset>
+          <legend>Personal Information</legend>
+
+          <div class="grid-2">
+
+            <!-- Full Name -->
+            <div class="field">
+              <label for="full-name">
+                Full Name
+                <span class="required-star" aria-hidden="true">*</span>
+              </label>
+              <input
+                type="text"
+                id="full-name"
+                name="full_name"
+                aria-required="true"
+                aria-describedby="name-hint name-error"
+                autocomplete="name"
+                placeholder="e.g. Priya Sharma"
+              />
+              <span id="name-hint" class="hint">Enter your first and last name</span>
+              <span id="name-error" class="error-msg" role="alert">Please enter your full name.</span>
+            </div>
+
+            <!-- Phone -->
+            <div class="field">
+              <label for="phone">Phone Number</label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                aria-describedby="phone-hint"
+                autocomplete="tel"
+                placeholder="+91 98765 43210"
+              />
+              <span id="phone-hint" class="hint">Optional — include country code</span>
+            </div>
+
+          </div>
+
+          <!-- Email -->
+          <div class="field">
+            <label for="email">
+              Email Address
+              <span class="required-star" aria-hidden="true">*</span>
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              aria-required="true"
+              aria-describedby="email-hint email-error"
+              autocomplete="email"
+              placeholder="priya@example.com"
+            />
+            <span id="email-hint" class="hint">We'll never share your email</span>
+            <span id="email-error" class="error-msg" role="alert">Please enter a valid email address.</span>
+          </div>
+
+        </fieldset>
+
+        <!-- ── Section 2: Inquiry ── -->
+        <fieldset>
+          <legend>Inquiry Details</legend>
+
+          <!-- Subject Dropdown -->
+          <div class="field">
+            <label for="subject">
+              Subject
+              <span class="required-star" aria-hidden="true">*</span>
+            </label>
+            <select
+              id="subject"
+              name="subject"
+              aria-required="true"
+              aria-describedby="subject-hint subject-error"
+            >
+              <option value="" disabled selected>— Select a topic —</option>
+              <option value="support">Technical Support</option>
+              <option value="billing">Billing &amp; Payments</option>
+              <option value="sales">Sales Inquiry</option>
+              <option value="feedback">Feedback</option>
+              <option value="other">Other</option>
+            </select>
+            <span id="subject-hint" class="hint">Choose the topic that best fits your message</span>
+            <span id="subject-error" class="error-msg" role="alert">Please select a subject.</span>
+          </div>
+
+          <!-- Message -->
+          <div class="field">
+            <label for="message">
+              Message
+              <span class="required-star" aria-hidden="true">*</span>
+            </label>
+            <textarea
+              id="message"
+              name="message"
+              aria-required="true"
+              aria-describedby="message-hint message-error"
+              placeholder="Describe your question or issue in detail..."
+            ></textarea>
+            <span id="message-hint" class="hint">Minimum 20 characters</span>
+            <span id="message-error" class="error-msg" role="alert">Please enter a message (at least 20 characters).</span>
+          </div>
+
+        </fieldset>
+
+        <!-- ── Section 3: Contact Preference (Radio) ── -->
+        <fieldset>
+          <legend>Preferred Contact Method</legend>
+
+          <div
+            class="radio-options"
+            role="group"
+            aria-labelledby="contact-method-legend"
+            aria-required="true"
+          >
+            <span id="contact-method-legend" class="hint" style="font-weight:600; color:#2d3748;">
+              How should we reach you?
+              <span class="required-star" aria-hidden="true">*</span>
+            </span>
+
+            <label>
+              <input
+                type="radio"
+                name="contact_method"
+                id="method-email"
+                value="email"
+                aria-required="true"
+                checked
+              />
+              Email
+            </label>
+
+            <label>
+              <input
+                type="radio"
+                name="contact_method"
+                id="method-phone"
+                value="phone"
+              />
+              Phone
+            </label>
+
+            <label>
+              <input
+                type="radio"
+                name="contact_method"
+                id="method-either"
+                value="either"
+              />
+              Either is fine
+            </label>
+          </div>
+
+        </fieldset>
+
+        <!-- ── Section 4: Consent (Checkbox) ── -->
+        <fieldset>
+          <legend>Consent &amp; Preferences</legend>
+
+          <div class="checkbox-options">
+
+            <!-- Newsletter (optional) -->
+            <label>
+              <input
+                type="checkbox"
+                id="newsletter"
+                name="newsletter"
+                value="yes"
+                aria-describedby="newsletter-hint"
+              />
+              Subscribe to our newsletter
+            </label>
+            <span id="newsletter-hint" class="hint" style="padding-left: 28px;">
+              Get occasional updates — unsubscribe anytime
+            </span>
+
+            <!-- Privacy (required) -->
+            <label>
+              <input
+                type="checkbox"
+                id="privacy"
+                name="privacy"
+                value="agreed"
+                aria-required="true"
+                aria-describedby="privacy-hint privacy-error"
+              />
+              I agree to the
+              <a href="#" style="color:#4a6cf7; text-decoration:underline;">Privacy Policy</a>
+              <span class="required-star" aria-hidden="true">*</span>
+            </label>
+            <span id="privacy-hint" class="hint" style="padding-left: 28px;">
+              Required to submit this form
+            </span>
+            <span id="privacy-error" class="error-msg" role="alert" style="padding-left: 28px;">
+              You must accept the Privacy Policy to continue.
+            </span>
+
+          </div>
+        </fieldset>
+
+        <!-- ── Submit ── -->
+        <button
+          type="submit"
+          class="btn-submit"
+          aria-describedby="form-status"
+        >
+          Submit Message
+        </button>
+
+        <!-- ── Success Banner ── -->
+        <div
+          id="success-banner"
+          class="success-banner"
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+          tabindex="-1"
+        >
+          <span class="icon" aria-hidden="true">✓</span>
+          <span>Your message has been sent! We'll get back to you within 1–2 business days.</span>
+        </div>
+
+        <span id="form-status" class="hint" aria-live="polite" style="display:none;"></span>
+
+      </form>
+    </div>
   </div>
-</div>
 
-<script>
-  /* ── Helpers ── */
-  function showError(inputId, errorId) {
-    const el = document.getElementById(inputId);
-    const err = document.getElementById(errorId);
-    if (el) el.setAttribute('aria-invalid', 'true');
-    if (err) err.style.display = 'block';
-  }
+  <script>
+    const form = document.getElementById('contact-form');
 
-  function clearError(inputId, errorId) {
-    const el = document.getElementById(inputId);
-    const err = document.getElementById(errorId);
-    if (el) el.removeAttribute('aria-invalid');
-    if (err) err.style.display = 'none';
-  }
-
-  function isValidEmail(val) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val.trim());
-  }
-
-  function isValidPhone(val) {
-    return /^[+\d\s\-()]{7,}$/.test(val.trim());
-  }
-
-  /* ── Photo Preview ── */
-  function previewPhoto(input) {
-    const preview = document.getElementById('photo-preview');
-    const img = document.getElementById('preview-img');
-    if (input.files && input.files[0]) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        img.src = e.target.result;
-        preview.style.display = 'block';
-      };
-      reader.readAsDataURL(input.files[0]);
+    /* ── Helpers ── */
+    function showError(inputId, errorId) {
+      const input = document.getElementById(inputId);
+      const error = document.getElementById(errorId);
+      input.setAttribute('aria-invalid', 'true');
+      error.style.display = 'block';
     }
-  }
 
-  /* ── Live blur validation ── */
-  const blurRules = [
-    { id: 'first-name',    err: 'fname-error',      check: v => v.trim() !== '' },
-    { id: 'last-name',     err: 'lname-error',      check: v => v.trim() !== '' },
-    { id: 'dob',           err: 'dob-error',        check: v => v !== '' },
-    { id: 'nationality',   err: 'nationality-error', check: v => v !== '' },
-    { id: 'email',         err: 'email-error',      check: v => isValidEmail(v) },
-    { id: 'phone',         err: 'phone-error',      check: v => isValidPhone(v) },
-    { id: 'address',       err: 'address-error',    check: v => v.trim().length >= 10 },
-    { id: 'course',        err: 'course-error',     check: v => v !== '' },
-    { id: 'academic-year', err: 'year-error',       check: v => v !== '' },
-    { id: 'guardian-name', err: 'guardian-error',   check: v => v.trim() !== '' },
-    { id: 'relation',      err: 'relation-error',   check: v => v !== '' },
-    { id: 'guardian-phone',err: 'gphone-error',     check: v => isValidPhone(v) },
-  ];
+    function clearError(inputId, errorId) {
+      const input = document.getElementById(inputId);
+      const error = document.getElementById(errorId);
+      input.removeAttribute('aria-invalid');
+      error.style.display = 'none';
+    }
 
-  blurRules.forEach(rule => {
-    const el = document.getElementById(rule.id);
-    if (!el) return;
-    el.addEventListener('blur', function () {
-      if (!rule.check(this.value)) showError(rule.id, rule.err);
-      else clearError(rule.id, rule.err);
-    });
-  });
-
-  /* ── Submit ── */
-  document.getElementById('reg-form').addEventListener('submit', function (e) {
-    e.preventDefault();
-    let valid = true;
-
-    /* Text / select / textarea fields */
-    blurRules.forEach(rule => {
-      const el = document.getElementById(rule.id);
-      if (!el) return;
-      if (!rule.check(el.value)) { showError(rule.id, rule.err); valid = false; }
-      else clearError(rule.id, rule.err);
+    /* ── Live validation on blur ── */
+    document.getElementById('full-name').addEventListener('blur', function () {
+      if (!this.value.trim()) showError('full-name', 'name-error');
+      else clearError('full-name', 'name-error');
     });
 
-    /* Radio: gender */
-    const genderChecked = document.querySelector('input[name="gender"]:checked');
-    if (!genderChecked) {
-      document.getElementById('gender-error').style.display = 'block';
-      valid = false;
-    } else {
-      document.getElementById('gender-error').style.display = 'none';
-    }
+    document.getElementById('email').addEventListener('blur', function () {
+      const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.value.trim());
+      if (!this.value.trim() || !valid) showError('email', 'email-error');
+      else clearError('email', 'email-error');
+    });
 
-    /* Radio: medium */
-    const mediumChecked = document.querySelector('input[name="medium"]:checked');
-    if (!mediumChecked) {
-      document.getElementById('medium-error').style.display = 'block';
-      valid = false;
-    } else {
-      document.getElementById('medium-error').style.display = 'none';
-    }
+    document.getElementById('subject').addEventListener('change', function () {
+      if (!this.value) showError('subject', 'subject-error');
+      else clearError('subject', 'subject-error');
+    });
 
-    /* Checkboxes */
-    const terms = document.getElementById('terms');
-    const accuracy = document.getElementById('accuracy');
+    document.getElementById('message').addEventListener('blur', function () {
+      if (this.value.trim().length < 20) showError('message', 'message-error');
+      else clearError('message', 'message-error');
+    });
 
-    if (!terms.checked) {
-      document.getElementById('terms-error').style.display = 'block';
-      terms.setAttribute('aria-invalid', 'true');
-      valid = false;
-    } else {
-      document.getElementById('terms-error').style.display = 'none';
-      terms.removeAttribute('aria-invalid');
-    }
+    document.getElementById('privacy').addEventListener('change', function () {
+      if (!this.checked) showError('privacy', 'privacy-error');
+      else clearError('privacy', 'privacy-error');
+    });
 
-    if (!accuracy.checked) {
-      document.getElementById('accuracy-error').style.display = 'block';
-      accuracy.setAttribute('aria-invalid', 'true');
-      valid = false;
-    } else {
-      document.getElementById('accuracy-error').style.display = 'none';
-      accuracy.removeAttribute('aria-invalid');
-    }
+    /* ── Form Submit ── */
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
 
-    if (!valid) {
-      const firstErr = document.querySelector('[aria-invalid="true"]');
-      if (firstErr) firstErr.focus();
-      return;
-    }
+      let valid = true;
 
-    /* Success */
-    const banner = document.getElementById('success-banner');
-    banner.style.display = 'flex';
-    banner.focus();
-    banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    this.reset();
-    document.getElementById('photo-preview').style.display = 'none';
-  });
-</script>
+      const name = document.getElementById('full-name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      const subject = document.getElementById('subject').value;
+      const message = document.getElementById('message').value.trim();
+      const privacy = document.getElementById('privacy').checked;
+
+      if (!name)         { showError('full-name', 'name-error');    valid = false; }
+      else                 clearError('full-name', 'name-error');
+
+      if (!email || !emailValid) { showError('email', 'email-error'); valid = false; }
+      else                         clearError('email', 'email-error');
+
+      if (!subject)      { showError('subject', 'subject-error');   valid = false; }
+      else                 clearError('subject', 'subject-error');
+
+      if (message.length < 20) { showError('message', 'message-error'); valid = false; }
+      else                       clearError('message', 'message-error');
+
+      if (!privacy)      { showError('privacy', 'privacy-error');   valid = false; }
+      else                 clearError('privacy', 'privacy-error');
+
+      if (!valid) {
+        /* Focus first error field for screen readers */
+        const firstError = form.querySelector('[aria-invalid="true"]');
+        if (firstError) firstError.focus();
+        return;
+      }
+
+      /* Show success */
+      const banner = document.getElementById('success-banner');
+      banner.style.display = 'flex';
+      banner.focus();
+      form.reset();
+
+      /* Scroll to banner */
+      banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  </script>
 
 </body>
 </html>
