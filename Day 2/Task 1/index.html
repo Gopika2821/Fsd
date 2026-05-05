@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GlowScript – Skincare Blog</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --rose:    #c2856a;
+      --blush:   #f5ede8;
+      --petal:   #edddd4;
+      --cream:   #faf7f4;
+      --bark:    #3b2f2a;
+      --muted:   #9c8880;
+      --border:  #e4d8d0;
+      --white:   #ffffff;
+    }
+
+    html { font-size: 17px; scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--bark);
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      line-height: 1.8;
+    }
+
+    /* ════════════════════════
+       HEADER
+    ════════════════════════ */
+    header {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 2.2rem 2rem 1.8rem;
+      text-align: center;
+    }
+
+    header p.tagline-top {
+      font-size: 0.7rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--rose);
+      margin-bottom: 0.6rem;
+    }
+
+    header h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.6rem, 6vw, 4rem);
+      font-weight: 300;
+      letter-spacing: 0.06em;
+      color: var(--bark);
+      line-height: 1;
+    }
+
+    header h1 em {
+      font-style: italic;
+      color: var(--rose);
+    }
+
+    header p.tagline-bottom {
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+      margin-top: 0.6rem;
+      text-transform: uppercase;
+    }
+
+    /* ════════════════════════
+       NAV
+    ════════════════════════ */
+    nav {
+      background: var(--bark);
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    nav ul li a {
+      display: block;
+      padding: 0.9rem 1.5rem;
+      text-decoration: none;
+      color: var(--petal);
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    nav ul li a:hover,
+    nav ul li a.active {
+      color: var(--rose);
+    }
+
+    /* ════════════════════════
+       HERO BANNER (section inside main)
+    ════════════════════════ */
+    .hero {
+      background: linear-gradient(135deg, #e8d5cc 0%, #f5ede8 60%, #faf7f4 100%);
+      padding: 4rem 2rem;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--bark);
+      margin-bottom: 0.8rem;
+    }
+
+    .hero p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      max-width: 520px;
+      margin: 0 auto 1.6rem;
+    }
+
+    .hero a.btn {
+      display: inline-block;
+      padding: 0.75rem 2.2rem;
+      background: var(--rose);
+      color: var(--white);
+      text-decoration: none;
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 500;
+      transition: background 0.25s;
+    }
+
+    .hero a.btn:hover { background: var(--bark); }
+
+    /* ════════════════════════
+       MAIN LAYOUT
+    ════════════════════════ */
+    main {
+      max-width: 1020px;
+      margin: 0 auto;
+    }
+
+    .content-wrap {
+      display: grid;
+      grid-template-columns: 1fr 270px;
+      gap: 3rem;
+      padding: 3rem 2rem;
+      align-items: start;
+    }
+
+    /* ════════════════════════
+       ARTICLES
+    ════════════════════════ */
+    article {
+      background: var(--white);
+      border: 1px solid var(--border);
+      margin-bottom: 2.5rem;
+      overflow: hidden;
+    }
+
+    /* article image placeholder */
+    article figure {
+      width: 100%;
+      height: 220px;
+      background: linear-gradient(135deg, var(--petal), var(--blush));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    article figure img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    article figure figcaption {
+      display: none;
+    }
+
+    /* fallback emoji label when no real img */
+    article figure span {
+      font-size: 3.5rem;
+      opacity: 0.35;
+    }
+
+    article header {
+      padding: 1.6rem 2rem 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    article header .category {
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--rose);
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+
+    article header h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.55rem;
+      font-weight: 600;
+      line-height: 1.25;
+      color: var(--bark);
+    }
+
+    article header p.meta {
+      margin-top: 0.5rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+    }
+
+    article section {
+      padding: 1.4rem 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    article section h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--bark);
+      margin-bottom: 0.5rem;
+    }
+
+    article section p {
+      font-size: 0.88rem;
+      color: #5c4a42;
+      line-height: 1.85;
+    }
+
+    article section ul {
+      padding-left: 1.2rem;
+      font-size: 0.88rem;
+      color: #5c4a42;
+      line-height: 2;
+    }
+
+    article footer {
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    article footer a.read-more {
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--rose);
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: 1px solid var(--rose);
+      padding-bottom: 1px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    article footer a.read-more:hover {
+      color: var(--bark);
+      border-color: var(--bark);
+    }
+
+    article footer .tags span {
+      display: inline-block;
+      background: var(--blush);
+      color: var(--rose);
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.65rem;
+      margin-left: 0.3rem;
+      font-weight: 500;
+    }
+
+    /* ════════════════════════
+       ASIDE / SIDEBAR
+    ════════════════════════ */
+    aside {
+      position: sticky;
+      top: 2rem;
+    }
+
+    aside section {
+      background: var(--white);
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      margin-bottom: 1.6rem;
+    }
+
+    aside section h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--bark);
+      letter-spacing: 0.08em;
+      padding-bottom: 0.7rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+    }
+
+    aside section p {
+      font-size: 0.83rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    aside section ul {
+      list-style: none;
+    }
+
+    aside section ul li {
+      padding: 0.55rem 0;
+      border-bottom: 1px solid var(--blush);
+      font-size: 0.83rem;
+    }
+
+    aside section ul li:last-child { border: none; }
+
+    aside section ul li a {
+      color: var(--bark);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    aside section ul li a:hover { color: var(--rose); }
+
+    aside section ul li span {
+      float: right;
+      color: var(--rose);
+      font-size: 0.75rem;
+    }
+
+    /* newsletter box */
+    aside .newsletter {
+      background: var(--bark);
+      border: none;
+      color: var(--cream);
+      text-align: center;
+    }
+
+    aside .newsletter h4 {
+      color: var(--rose);
+      border-color: #5c4a42;
+    }
+
+    aside .newsletter p {
+      color: #c9b8b0;
+      font-size: 0.82rem;
+      margin-bottom: 1rem;
+    }
+
+    aside .newsletter input {
+      width: 100%;
+      padding: 0.6rem 0.8rem;
+      border: 1px solid #5c4a42;
+      background: #4a3830;
+      color: var(--cream);
+      font-family: 'Jost', sans-serif;
+      font-size: 0.82rem;
+      margin-bottom: 0.6rem;
+      outline: none;
+    }
+
+    aside .newsletter input::placeholder { color: #9c8880; }
+
+    aside .newsletter button {
+      width: 100%;
+      padding: 0.7rem;
+      background: var(--rose);
+      color: var(--white);
+      border: none;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    aside .newsletter button:hover { background: #a86d52; }
+
+    /* ════════════════════════
+       FOOTER
+    ════════════════════════ */
+    footer {
+      background: var(--bark);
+      color: #c9b8b0;
+      padding: 2.5rem 2rem;
+      text-align: center;
+    }
+
+    footer h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 300;
+      color: var(--white);
+      margin-bottom: 0.4rem;
+      letter-spacing: 0.1em;
+    }
+
+    footer p {
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      margin-top: 0.3rem;
+    }
+
+    footer nav ul {
+      justify-content: center;
+      background: transparent;
+      margin-top: 1.2rem;
+      gap: 0.5rem;
+    }
+
+    footer nav ul li a {
+      color: #9c8880;
+      font-size: 0.68rem;
+      padding: 0.3rem 0.8rem;
+    }
+
+    footer nav ul li a:hover { color: var(--rose); }
+
+    footer p.copy {
+      margin-top: 1.5rem;
+      font-size: 0.72rem;
+      color: #5c4a42;
+      letter-spacing: 0.1em;
+    }
+
+    /* ════════════════════════
+       RESPONSIVE
+    ════════════════════════ */
+    @media (max-width: 700px) {
+      .content-wrap {
+        grid-template-columns: 1fr;
+      }
+      aside { position: static; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── SITE HEADER ── -->
+  <header>
+    <p class="tagline-top">Your Skincare Companion</p>
+    <h1>Glow<em>Script</em></h1>
+    <p class="tagline-bottom">Science · Nature · Radiance</p>
+  </header>
+
+  <!-- ── SITE NAV ── -->
+  <nav>
+    <ul>
+      <li><a href="#" class="active">Home</a></li>
+      <li><a href="#">Skincare Tips</a></li>
+      <li><a href="#">Product Reviews</a></li>
+      <li><a href="#">Routines</a></li>
+      <li><a href="#">Ingredients</a></li>
+      <li><a href="#">Shop</a></li>
+    </ul>
+  </nav>
+
+  <!-- ── MAIN ── -->
+  <main>
+
+    <!-- Hero Banner -->
+    <section class="hero">
+      <h2>Your Skin Deserves the Best</h2>
+      <p>Expert-backed skincare guides, honest product reviews, and routines crafted for every skin type.</p>
+      <a href="#" class="btn">Explore Routines</a>
+    </section>
+
+    <!-- Blog + Sidebar -->
+    <section class="content-wrap">
+
+      <!-- ── ARTICLES ── -->
+      <section>
+
+        <!-- Article 1 -->
+        <article>
+          <figure>
+            <span>🌿</span>
+          </figure>
+          <header>
+            <p class="category">Skincare Routine</p>
+            <h2>The Perfect Morning Skincare Routine for Glowing Skin</h2>
+            <p class="meta">By <strong>Dr. Meena Krishnan</strong> · May 3, 2025 · 6 min read</p>
+          </header>
+          <section>
+            <h3>Why Your Morning Routine Matters</h3>
+            <p>
+              Your skin repairs itself overnight — morning is when you protect that work. 
+              A proper AM routine locks in hydration, shields against UV damage, and keeps 
+              your skin barrier strong throughout the day.
+            </p>
+          </section>
+          <section>
+            <h3>The 5-Step Morning Routine</h3>
+            <ul>
+              <li><strong>Gentle Cleanser</strong> — Remove overnight oils without stripping moisture</li>
+              <li><strong>Vitamin C Serum</strong> — Brighten and protect against free radicals</li>
+              <li><strong>Hyaluronic Acid</strong> — Deeply hydrate and plump skin cells</li>
+              <li><strong>Moisturiser</strong> — Seal in all the goodness underneath</li>
+              <li><strong>SPF 50+</strong> — Non-negotiable. Every. Single. Day.</li>
+            </ul>
+          </section>
+          <footer>
+            <a href="#" class="read-more">Read Full Article →</a>
+            <span class="tags">
+              <span>Routine</span>
+              <span>Glow</span>
+            </span>
+          </footer>
+        </article>
+
+        <!-- Article 2 -->
+        <article>
+          <figure>
+            <span>✨</span>
+          </figure>
+          <header>
+            <p class="category">Ingredients Spotlight</p>
+            <h2>Niacinamide vs Retinol: Which One is Right for You?</h2>
+            <p class="meta">By <strong>Aisha Fernandez</strong> · April 28, 2025 · 8 min read</p>
+          </header>
+          <section>
+            <h3>What is Niacinamide?</h3>
+            <p>
+              Niacinamide (Vitamin B3) is a gentle, multi-tasking powerhouse. It minimises pores, 
+              fades dark spots, controls oil production, and strengthens the skin barrier — 
+              all with minimal irritation. Perfect for beginners and sensitive skin types.
+            </p>
+          </section>
+          <section>
+            <h3>What is Retinol?</h3>
+            <p>
+              Retinol is a Vitamin A derivative renowned for tackling fine lines, acne, 
+              and uneven texture. It speeds up cell turnover, but requires a slow introduction 
+              to avoid redness and peeling. Best suited for those comfortable with actives.
+            </p>
+          </section>
+          <section>
+            <h3>Can You Use Both?</h3>
+            <p>
+              Yes — but not at the same time. Use niacinamide in the morning and retinol 
+              only at night. Together over time, they complement each other beautifully 
+              for a refined, even complexion.
+            </p>
+          </section>
+          <footer>
+            <a href="#" class="read-more">Read Full Article →</a>
+            <span class="tags">
+              <span>Ingredients</span>
+              <span>Anti-Aging</span>
+            </span>
+          </footer>
+        </article>
+
+        <!-- Article 3 -->
+        <article>
+          <figure>
+            <span>🌙</span>
+          </figure>
+          <header>
+            <p class="category">Night Care</p>
+            <h2>Night Creams That Actually Work: Our Top 5 Picks</h2>
+            <p class="meta">By <strong>Sana Kapoor</strong> · April 15, 2025 · 5 min read</p>
+          </header>
+          <section>
+            <h3>Why Night Cream is Different</h3>
+            <p>
+              While you sleep, skin enters repair mode. A good night cream is richer, 
+              packed with peptides, ceramides, and nourishing oils — ingredients that 
+              would feel heavy in the day but work perfectly overnight.
+            </p>
+          </section>
+          <section>
+            <h3>Our Top Picks</h3>
+            <ul>
+              <li><strong>CeraVe Skin Renewing Night Cream</strong> – Ceramides for barrier repair</li>
+              <li><strong>Olay Regenerist Retinol 24</strong> – Retinol + niacinamide combo</li>
+              <li><strong>La Roche-Posay Cicaplast Baume</strong> – For sensitive or damaged skin</li>
+              <li><strong>Neutrogena Rapid Wrinkle Repair</strong> – Fast-acting retinol</li>
+              <li><strong>Clinique Moisture Surge</strong> – Lightweight yet deeply hydrating</li>
+            </ul>
+          </section>
+          <footer>
+            <a href="#" class="read-more">Read Full Article →</a>
+            <span class="tags">
+              <span>Reviews</span>
+              <span>Night Care</span>
+            </span>
+          </footer>
+        </article>
+
+      </section>
+      <!-- ── END ARTICLES ── -->
+
+      <!-- ── SIDEBAR ── -->
+      <aside>
+
+        <section>
+          <h4>About GlowScript</h4>
+          <p>We break down the science of skincare into simple, honest advice — helping you find what truly works for your skin.</p>
+        </section>
+
+        <section>
+          <h4>Popular Posts</h4>
+          <ul>
+            <li><a href="#">Morning Routine for Glowing Skin</a></li>
+            <li><a href="#">Niacinamide vs Retinol</a></li>
+            <li><a href="#">Best SPFs for Indian Skin</a></li>
+            <li><a href="#">How to Layer Serums Correctly</a></li>
+            <li><a href="#">Top 5 Night Creams</a></li>
+          </ul>
+        </section>
+
+        <section>
+          <h4>Categories</h4>
+          <ul>
+            <li><a href="#">Skincare Routines</a> <span>12</span></li>
+            <li><a href="#">Ingredients</a> <span>9</span></li>
+            <li><a href="#">Product Reviews</a> <span>15</span></li>
+            <li><a href="#">Night Care</a> <span>7</span></li>
+            <li><a href="#">Sun Protection</a> <span>5</span></li>
+          </ul>
+        </section>
+
+        <section class="newsletter">
+          <h4>Glow in Your Inbox</h4>
+          <p>Get weekly skincare tips and exclusive product picks — no spam, ever.</p>
+          <input type="email" placeholder="your@email.com" />
+          <button type="button">Subscribe</button>
+        </section>
+
+      </aside>
+      <!-- ── END SIDEBAR ── -->
+
+    </section>
+    <!-- ── END CONTENT WRAP ── -->
+
+  </main>
+
+  <!-- ── SITE FOOTER ── -->
+  <footer>
+    <h3>GlowScript</h3>
+    <p>Science · Nature · Radiance</p>
+    <nav>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">Instagram</a></li>
+      </ul>
+    </nav>
+    <p class="copy">© 2025 GlowScript · All rights reserved · Made with 🌿</p>
+  </footer>
+
+</body>
+</html>

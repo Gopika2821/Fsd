@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Registration Form</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #f4f6f9;
+      color: #1a1a2e;
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    .page-wrapper {
+      width: 100%;
+      max-width: 700px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin-bottom: 0.25rem;
+    }
+
+    .page-subtitle {
+      font-size: 0.95rem;
+      color: #555;
+      margin-bottom: 2rem;
+    }
+
+    .page-subtitle span {
+      color: #c0392b;
+      font-weight: 600;
+    }
+
+    .form-card {
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+
+    .form-header {
+      background: #1a1a2e;
+      padding: 1.5rem 2rem;
+    }
+
+    .form-header h2 {
+      color: #ffffff;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .form-header p {
+      color: #aab0c0;
+      font-size: 0.85rem;
+      margin-top: 0.25rem;
+    }
+
+    form {
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    fieldset {
+      border: 1.5px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+    }
+
+    legend {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #4a5568;
+      background: #fff;
+      padding: 0 8px;
+    }
+
+    .field {
+      margin-top: 1rem;
+    }
+
+    .field:first-of-type { margin-top: 0.75rem; }
+
+    .field label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #2d3748;
+      margin-bottom: 6px;
+    }
+
+    .required-star {
+      color: #c0392b;
+      margin-left: 3px;
+      font-weight: 700;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="date"],
+    input[type="number"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px 14px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      color: #1a1a2e;
+      background: #f8fafc;
+      border: 1.5px solid #cbd5e0;
+      border-radius: 8px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="tel"]:focus,
+    input[type="date"]:focus,
+    input[type="number"]:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #4a6cf7;
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(74, 108, 247, 0.15);
+    }
+
+    input[aria-invalid="true"],
+    select[aria-invalid="true"],
+    textarea[aria-invalid="true"] {
+      border-color: #c0392b;
+      box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.12);
+    }
+
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'%3E%3Cpath fill='%23555' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 36px;
+      cursor: pointer;
+    }
+
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+      line-height: 1.6;
+    }
+
+    .hint {
+      display: block;
+      font-size: 0.78rem;
+      color: #718096;
+      margin-top: 5px;
+    }
+
+    .error-msg {
+      font-size: 0.8rem;
+      color: #c0392b;
+      margin-top: 4px;
+      display: none;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .radio-options,
+    .checkbox-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 0.75rem;
+    }
+
+    .radio-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 24px;
+      margin-top: 0.75rem;
+    }
+
+    .radio-options label,
+    .checkbox-options label,
+    .radio-row label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #2d3748;
+      cursor: pointer;
+    }
+
+    input[type="radio"],
+    input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: #4a6cf7;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    input[type="radio"]:focus,
+    input[type="checkbox"]:focus {
+      outline: 3px solid rgba(74, 108, 247, 0.4);
+      outline-offset: 2px;
+      border-radius: 3px;
+    }
+
+    /* Photo upload */
+    .upload-box {
+      border: 2px dashed #cbd5e0;
+      border-radius: 10px;
+      padding: 1.25rem;
+      text-align: center;
+      background: #f8fafc;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+
+    .upload-box:hover { border-color: #4a6cf7; }
+
+    .upload-box input[type="file"] {
+      display: none;
+    }
+
+    .upload-box .upload-label {
+      font-size: 0.88rem;
+      color: #4a6cf7;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .upload-box .upload-hint {
+      font-size: 0.78rem;
+      color: #718096;
+      margin-top: 4px;
+    }
+
+    #photo-preview {
+      display: none;
+      margin-top: 10px;
+    }
+
+    #photo-preview img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 2px solid #4a6cf7;
+    }
+
+    /* Submit */
+    .btn-submit {
+      width: 100%;
+      padding: 14px;
+      font-size: 1rem;
+      font-weight: 700;
+      font-family: inherit;
+      color: #ffffff;
+      background: #1a1a2e;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      letter-spacing: 0.04em;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .btn-submit:hover { background: #2d2d4e; }
+    .btn-submit:active { transform: scale(0.98); }
+    .btn-submit:focus-visible {
+      outline: 3px solid #4a6cf7;
+      outline-offset: 3px;
+    }
+
+    /* Success */
+    .success-banner {
+      display: none;
+      align-items: center;
+      gap: 14px;
+      background: #eafaf1;
+      border: 1.5px solid #2ecc71;
+      border-radius: 10px;
+      padding: 16px 18px;
+      font-size: 0.9rem;
+      color: #1a7a42;
+      font-weight: 500;
+    }
+
+    .success-banner .icon { font-size: 1.4rem; flex-shrink: 0; }
+
+    .sr-only {
+      position: absolute;
+      width: 1px; height: 1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+    }
+
+    @media (max-width: 580px) {
+      form { padding: 1.25rem; }
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+      h1 { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page-wrapper">
+
+  <h1>Student Registration</h1>
+  <p class="page-subtitle">
+    Fields marked with <span aria-hidden="true">*</span>
+    <span class="sr-only">an asterisk</span> are required.
+  </p>
+
+  <div class="form-card">
+
+    <div class="form-header" role="banner">
+      <h2>New Student Enrollment Form</h2>
+      <p>Please fill in accurate details. All information is kept confidential.</p>
+    </div>
+
+    <form id="reg-form" novalidate aria-label="Student registration form">
+
+      <!-- ── 1. Personal Details ── -->
+      <fieldset>
+        <legend>Personal Details</legend>
+
+        <div class="grid-3">
+          <div class="field">
+            <label for="first-name">
+              First Name <span class="required-star" aria-hidden="true">*</span>
+            </label>
+            <input type="text" id="first-name" name="first_name"
+              aria-required="true"
+              aria-describedby="fname-hint fname-error"
+              autocomplete="given-name"
+              placeholder="Priya" />
+            <span id="fname-hint" class="hint">As per official records</span>
+            <span id="fname-error" class="error-msg" role="alert">First name is required.</span>
+          </div>
+
+          <div class="field">
+            <label for="middle-name">Middle Name</label>
+            <input type="text" id="middle-name" name="middle_name"
+              autocomplete="additional-name"
+              placeholder="Kumar" />
+          </div>
+
+          <div class="field">
+            <label for="last-name">
+              Last Name <span class="required-star" aria-hidden="true">*</span>
+            </label>
+            <input type="text" id="last-name" name="last_name"
+              aria-required="true"
+              aria-describedby="lname-error"
+              autocomplete="family-name"
+              placeholder="Sharma" />
+            <span id="lname-error" class="error-msg" role="alert">Last name is required.</span>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label for="dob">
+              Date of Birth <span class="required-star" aria-hidden="true">*</span>
+            </label>
+            <input type="date" id="dob" name="dob"
+              aria-required="true"
+              aria-describedby="dob-hint dob-error" />
+            <span id="dob-hint" class="hint">Must be 5–25 years old</span>
+            <span id="dob-error" class="error-msg" role="alert">Please enter a valid date of birth.</span>
+          </div>
+
+          <div class="field">
+            <label for="nationality">
+              Nationality <span class="required-star" aria-hidden="true">*</span>
+            </label>
+            <select id="nationality" name="nationality"
+              aria-required="true"
+              aria-describedby="nationality-error">
+              <option value="" disabled selected>— Select —</option>
+              <option value="indian">Indian</option>
+              <option value="american">American</option>
+              <option value="british">British</option>
+              <option value="canadian">Canadian</option>
+              <option value="australian">Australian</option>
+              <option value="other">Other</option>
+            </select>
+            <span id="nationality-error" class="error-msg" role="alert">Please select your nationality.</span>
+          </div>
+        </div>
+
+        <!-- Gender (Radio) -->
+        <div class="field">
+          <span id="gender-label" style="display:block;font-size:0.875rem;font-weight:600;color:#2d3748;margin-bottom:6px;">
+            Gender <span class="required-star" aria-hidden="true">*</span>
+          </span>
+          <div class="radio-row"
+            role="group"
+            aria-labelledby="gender-label"
+            aria-required="true"
+            aria-describedby="gender-error">
+            <label>
+              <input type="radio" name="gender" id="gender-male" value="male" aria-required="true" />
+              Male
+            </label>
+            <label>
+              <input type="radio" name="gender" id="gender-female" value="female" />
+              Female
+            </label>
+            <label>
+              <input type="radio" name="gender" id="gender-other" value="other" />
+              Other
+            </label>
+            <label>
+              <input type="radio" name="gender" id="gender-prefer-not" value="prefer_not" />
+              Prefer not to say
+            </label>
+          </div>
+          <span id="gender-error" class="error-msg" role="alert">Please select your gender.</span>
+        </div>
+
+        <!-- Photo Upload -->
+        <div class="field">
+          <label id="photo-label">
+            Passport Photo
+            <span class="hint" style="display:inline; font-weight:400;">(optional)</span>
+          </label>
+          <div class="upload-box" onclick="document.getElementById('photo-upload').click()"
+            role="button" tabindex="0" aria-labelledby="photo-label"
+            onkeydown="if(event.key==='Enter'||event.key===' ')document.getElementById('photo-upload').click()">
+            <input type="file" id="photo-upload" name="photo"
+              accept="image/*"
+              aria-describedby="photo-hint"
+              onchange="previewPhoto(this)" />
+            <span class="upload-label">Click to upload photo</span>
+            <p class="upload-hint" id="photo-hint">JPG or PNG, max 2MB, square preferred</p>
+            <div id="photo-preview" aria-live="polite">
+              <img id="preview-img" src="" alt="Photo preview" />
+            </div>
+          </div>
+        </div>
+
+      </fieldset>
+
+      <!-- ── 2. Contact Information ── -->
+      <fieldset>
+        <legend>Contact Information</legend>
+
+        <div class="field">
+          <label for="email">
+            Email Address <span class="required-star" aria-hidden="true">*</span>
+          </label>
+          <input type="email" id="email" name="email"
+            aria-required="true"
+            aria-describedby="email-hint email-error"
+            autocomplete="email"
+            placeholder="priya@example.com" />
+          <span id="email-hint" class="hint">Used for login and communications</span>
+          <span id="email-error" class="error-msg" role="alert">Please enter a valid email address.</span>
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label for="phone">
+              Mobile Number <span class="required-star" aria-hidden="true">*</span>
+            </label>
+            <input type="tel" id="phone" name="phone"
+              aria-required="true"
+              aria-describedby="phone-hint phone-error"
+              autocomplete="tel"
+              placeholder="+91 98765 43210" />
+            <span id="phone-hint" class="hint">Include country code</span>
+            <span id="phone-error" class="error-msg" role="alert">Please enter a valid phone number.</span>
+          </div>
+
+          <div class="field">
+            <label for="alt-phone">Alternate Phone</label>
+            <input type="tel" id="alt-phone" name="alt_phone"
+              autocomplete="tel"
+              placeholder="Optional" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="address">
+            Residential Address <span class="required-star" aria-hidden="true">*</span>
+          </label>
+          <textarea id="address" name="address"
+            aria-required="true"
+            aria-describedby="address-error"
+            placeholder="Door No, Street, City, State, PIN Code"></textarea>
+          <span id="address-error" class="error-msg" role="alert">Please enter your residential address.</span>
+        </div>
+
+      </fieldset>
+
+      <!-- ── 3. Academic Details ── -->
+      <fieldset>
+        <legend>Academic Details</legend>
+
+        <div class="grid-2">
+          <div class="field">
+            <label for="course">
+              Course / Program <span class="required-star" aria-hidden="true">*</span>
+            </label>
+            <select id="course" name="course"
+              aria-required="true"
+              aria-describedby="course-error">
+              <option value="" disabled selected>— Select course —</option>
+              <optgroup label="Undergraduate">
+                <option value="bsc_cs">B.Sc Computer Science</option>
+                <option value="bsc_math">B.Sc Mathematics</option>
+                <option value="bcom">B.Com</option>
+                <option value="bba">BBA</option>
+                <option value="btech">B.Tech</option>
+              </optgroup>
+              <optgroup label="Postgraduate">
+                <option value="msc_cs">M.Sc Computer Science</option>
+                <option value="mba">MBA</option>
+                <option value="mtech">M.Tech</option>
+              </optgroup>
+              <optgroup label="Diploma">
+                <option value="dca">DCA</option>
+                <option value="pgdca">PGDCA</option>
+              </optgroup>
+            </select>
+            <span id="course-error" class="error-msg" role="alert">Please select a course.</span>
+          </div>
+
+          <div class="field">
+            <label for="academic-year">
+              Academic Year <span class="required-star" aria-hidden="true">*</span>
+            </label>
+            <select id="academic-year" name="academic_year"
+              aria-required="true"
+              aria-describedby="year-error">
+              <option value="" disabled selected>— Select year —</option>
+              <option value="2024-25">2024–25</option>
+              <option value="2025-26">2025–26</option>
+              <option value="2026-27">2026–27</option>
+            </select>
+            <span id="year-error" class="error-msg" role="alert">Please select an academic year.</span>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label for="prev-school">Previous Institution</label>
+            <input type="text" id="prev-school" name="prev_school"
+              aria-describedby="prev-school-hint"
+              placeholder="Name of school / college" />
+            <span id="prev-school-hint" class="hint">Last attended institution</span>
+          </div>
+
+          <div class="field">
+            <label for="prev-percent">
+              Previous Score / Percentage
+            </label>
+            <input type="number" id="prev-percent" name="prev_percent"
+              aria-describedby="percent-hint"
+              min="0" max="100" step="0.01"
+              placeholder="e.g. 87.5" />
+            <span id="percent-hint" class="hint">Enter percentage (0–100)</span>
+          </div>
+        </div>
+
+        <!-- Medium of instruction (Radio) -->
+        <div class="field">
+          <span id="medium-label" style="display:block;font-size:0.875rem;font-weight:600;color:#2d3748;margin-bottom:6px;">
+            Medium of Instruction <span class="required-star" aria-hidden="true">*</span>
+          </span>
+          <div class="radio-row"
+            role="group"
+            aria-labelledby="medium-label"
+            aria-required="true"
+            aria-describedby="medium-error">
+            <label>
+              <input type="radio" name="medium" id="medium-english" value="english" aria-required="true" />
+              English
+            </label>
+            <label>
+              <input type="radio" name="medium" id="medium-tamil" value="tamil" />
+              Tamil
+            </label>
+            <label>
+              <input type="radio" name="medium" id="medium-hindi" value="hindi" />
+              Hindi
+            </label>
+            <label>
+              <input type="radio" name="medium" id="medium-bilingual" value="bilingual" />
+              Bilingual
+            </label>
+          </div>
+          <span id="medium-error" class="error-msg" role="alert">Please select a medium of instruction.</span>
+        </div>
+
+      </fieldset>
+
+      <!-- ── 4. Guardian Details ── -->
+      <fieldset>
+        <legend>Guardian / Parent Details</legend>
+
+        <div class="grid-2">
+          <div class="field">
+            <label for="guardian-name">
+              Guardian Name <span class="required-star" aria-hidden="true">*</span>
+            </label>
+            <input type="text" id="guardian-name" name="guardian_name"
+              aria-required="true"
+              aria-describedby="guardian-error"
+              placeholder="Full name of parent / guardian" />
+            <span id="guardian-error" class="error-msg" role="alert">Guardian name is required.</span>
+          </div>
+
+          <div class="field">
+            <label for="relation">
+              Relationship <span class="required-star" aria-hidden="true">*</span>
+            </label>
+            <select id="relation" name="relation"
+              aria-required="true"
+              aria-describedby="relation-error">
+              <option value="" disabled selected>— Select —</option>
+              <option value="father">Father</option>
+              <option value="mother">Mother</option>
+              <option value="guardian">Legal Guardian</option>
+              <option value="sibling">Sibling</option>
+              <option value="spouse">Spouse</option>
+            </select>
+            <span id="relation-error" class="error-msg" role="alert">Please select the relationship.</span>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label for="guardian-phone">
+              Guardian Phone <span class="required-star" aria-hidden="true">*</span>
+            </label>
+            <input type="tel" id="guardian-phone" name="guardian_phone"
+              aria-required="true"
+              aria-describedby="gphone-error"
+              placeholder="+91 98765 00000" />
+            <span id="gphone-error" class="error-msg" role="alert">Guardian phone number is required.</span>
+          </div>
+
+          <div class="field">
+            <label for="guardian-email">Guardian Email</label>
+            <input type="email" id="guardian-email" name="guardian_email"
+              autocomplete="email"
+              placeholder="optional@example.com" />
+          </div>
+        </div>
+
+      </fieldset>
+
+      <!-- ── 5. Consent & Declarations ── -->
+      <fieldset>
+        <legend>Declarations &amp; Consent</legend>
+
+        <div class="checkbox-options">
+
+          <label>
+            <input type="checkbox" id="terms" name="terms" value="agreed"
+              aria-required="true"
+              aria-describedby="terms-hint terms-error" />
+            I have read and agree to the
+            <a href="#" style="color:#4a6cf7;text-decoration:underline;">Terms &amp; Conditions</a>
+            <span class="required-star" aria-hidden="true">*</span>
+          </label>
+          <span id="terms-hint" class="hint" style="padding-left:28px;">Required to complete registration</span>
+          <span id="terms-error" class="error-msg" role="alert" style="padding-left:28px;">You must agree to the Terms &amp; Conditions.</span>
+
+          <label>
+            <input type="checkbox" id="accuracy" name="accuracy" value="confirmed"
+              aria-required="true"
+              aria-describedby="accuracy-hint accuracy-error" />
+            I confirm that all information provided is accurate and true.
+            <span class="required-star" aria-hidden="true">*</span>
+          </label>
+          <span id="accuracy-hint" class="hint" style="padding-left:28px;">False information may lead to cancellation</span>
+          <span id="accuracy-error" class="error-msg" role="alert" style="padding-left:28px;">Please confirm your information is accurate.</span>
+
+          <label>
+            <input type="checkbox" id="newsletter" name="newsletter" value="yes"
+              aria-describedby="newsletter-hint" />
+            Subscribe to institution updates and newsletters
+          </label>
+          <span id="newsletter-hint" class="hint" style="padding-left:28px;">Optional — unsubscribe anytime</span>
+
+        </div>
+      </fieldset>
+
+      <!-- Submit -->
+      <button type="submit" class="btn-submit" aria-describedby="form-status">
+        Register Now
+      </button>
+
+      <!-- Success Banner -->
+      <div id="success-banner"
+        class="success-banner"
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true"
+        tabindex="-1">
+        <span class="icon" aria-hidden="true">✓</span>
+        <div>
+          <strong>Registration Successful!</strong><br />
+          <span style="font-weight:400;">Your details have been submitted. Check your email for the confirmation.</span>
+        </div>
+      </div>
+
+      <span id="form-status" aria-live="polite" class="sr-only"></span>
+
+    </form>
+  </div>
+</div>
+
+<script>
+  /* ── Helpers ── */
+  function showError(inputId, errorId) {
+    const el = document.getElementById(inputId);
+    const err = document.getElementById(errorId);
+    if (el) el.setAttribute('aria-invalid', 'true');
+    if (err) err.style.display = 'block';
+  }
+
+  function clearError(inputId, errorId) {
+    const el = document.getElementById(inputId);
+    const err = document.getElementById(errorId);
+    if (el) el.removeAttribute('aria-invalid');
+    if (err) err.style.display = 'none';
+  }
+
+  function isValidEmail(val) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val.trim());
+  }
+
+  function isValidPhone(val) {
+    return /^[+\d\s\-()]{7,}$/.test(val.trim());
+  }
+
+  /* ── Photo Preview ── */
+  function previewPhoto(input) {
+    const preview = document.getElementById('photo-preview');
+    const img = document.getElementById('preview-img');
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        img.src = e.target.result;
+        preview.style.display = 'block';
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  /* ── Live blur validation ── */
+  const blurRules = [
+    { id: 'first-name',    err: 'fname-error',      check: v => v.trim() !== '' },
+    { id: 'last-name',     err: 'lname-error',      check: v => v.trim() !== '' },
+    { id: 'dob',           err: 'dob-error',        check: v => v !== '' },
+    { id: 'nationality',   err: 'nationality-error', check: v => v !== '' },
+    { id: 'email',         err: 'email-error',      check: v => isValidEmail(v) },
+    { id: 'phone',         err: 'phone-error',      check: v => isValidPhone(v) },
+    { id: 'address',       err: 'address-error',    check: v => v.trim().length >= 10 },
+    { id: 'course',        err: 'course-error',     check: v => v !== '' },
+    { id: 'academic-year', err: 'year-error',       check: v => v !== '' },
+    { id: 'guardian-name', err: 'guardian-error',   check: v => v.trim() !== '' },
+    { id: 'relation',      err: 'relation-error',   check: v => v !== '' },
+    { id: 'guardian-phone',err: 'gphone-error',     check: v => isValidPhone(v) },
+  ];
+
+  blurRules.forEach(rule => {
+    const el = document.getElementById(rule.id);
+    if (!el) return;
+    el.addEventListener('blur', function () {
+      if (!rule.check(this.value)) showError(rule.id, rule.err);
+      else clearError(rule.id, rule.err);
+    });
+  });
+
+  /* ── Submit ── */
+  document.getElementById('reg-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    let valid = true;
+
+    /* Text / select / textarea fields */
+    blurRules.forEach(rule => {
+      const el = document.getElementById(rule.id);
+      if (!el) return;
+      if (!rule.check(el.value)) { showError(rule.id, rule.err); valid = false; }
+      else clearError(rule.id, rule.err);
+    });
+
+    /* Radio: gender */
+    const genderChecked = document.querySelector('input[name="gender"]:checked');
+    if (!genderChecked) {
+      document.getElementById('gender-error').style.display = 'block';
+      valid = false;
+    } else {
+      document.getElementById('gender-error').style.display = 'none';
+    }
+
+    /* Radio: medium */
+    const mediumChecked = document.querySelector('input[name="medium"]:checked');
+    if (!mediumChecked) {
+      document.getElementById('medium-error').style.display = 'block';
+      valid = false;
+    } else {
+      document.getElementById('medium-error').style.display = 'none';
+    }
+
+    /* Checkboxes */
+    const terms = document.getElementById('terms');
+    const accuracy = document.getElementById('accuracy');
+
+    if (!terms.checked) {
+      document.getElementById('terms-error').style.display = 'block';
+      terms.setAttribute('aria-invalid', 'true');
+      valid = false;
+    } else {
+      document.getElementById('terms-error').style.display = 'none';
+      terms.removeAttribute('aria-invalid');
+    }
+
+    if (!accuracy.checked) {
+      document.getElementById('accuracy-error').style.display = 'block';
+      accuracy.setAttribute('aria-invalid', 'true');
+      valid = false;
+    } else {
+      document.getElementById('accuracy-error').style.display = 'none';
+      accuracy.removeAttribute('aria-invalid');
+    }
+
+    if (!valid) {
+      const firstErr = document.querySelector('[aria-invalid="true"]');
+      if (firstErr) firstErr.focus();
+      return;
+    }
+
+    /* Success */
+    const banner = document.getElementById('success-banner');
+    banner.style.display = 'flex';
+    banner.focus();
+    banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    this.reset();
+    document.getElementById('photo-preview').style.display = 'none';
+  });
+</script>
+
+</body>
+</html>
