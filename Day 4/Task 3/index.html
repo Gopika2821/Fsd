@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Professional Responsive Navbar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+
+    /* ══════════════════════════════════════
+       CSS VARIABLES
+    ══════════════════════════════════════ */
+    :root {
+      --nav-bg:        rgba(8, 8, 20, 0.85);
+      --nav-border:    rgba(255,255,255,0.08);
+      --accent:        #7c6eff;
+      --accent-glow:   rgba(124,110,255,0.35);
+      --text-primary:  #f0f0ff;
+      --text-muted:    rgba(240,240,255,0.55);
+      --hover-bg:      rgba(255,255,255,0.06);
+      --dropdown-bg:   rgba(12,12,28,0.97);
+      --cta-bg:        linear-gradient(135deg, #7c6eff, #c65bff);
+      --transition:    0.25s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    /* ══════════════════════════════════════
+       RESET & BASE
+    ══════════════════════════════════════ */
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #06060f;
+      color: var(--text-primary);
+      min-height: 100vh;
+    }
+
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+
+    /* ══════════════════════════════════════
+       NAVBAR WRAPPER  (sticky + glass blur)
+    ══════════════════════════════════════ */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      width: 100%;
+      background: var(--nav-bg);
+      backdrop-filter: blur(18px) saturate(1.4);
+      -webkit-backdrop-filter: blur(18px) saturate(1.4);
+      border-bottom: 1px solid var(--nav-border);
+    }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+
+    /* ══════════════════════════════════════
+       LOGO
+    ══════════════════════════════════════ */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--text-primary);
+      letter-spacing: -0.5px;
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--cta-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+      box-shadow: 0 0 16px var(--accent-glow);
+    }
+
+    .logo span { color: var(--accent); }
+
+    /* ══════════════════════════════════════
+       DESKTOP NAV LINKS
+    ══════════════════════════════════════ */
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 0.15rem;
+    }
+
+    .nav-links > li { position: relative; }
+
+    .nav-links > li > a {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 0.5rem 0.85rem;
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      border-radius: 8px;
+      transition: color var(--transition), background var(--transition);
+    }
+
+    .nav-links > li > a:hover,
+    .nav-links > li > a.active {
+      color: var(--text-primary);
+      background: var(--hover-bg);
+    }
+
+    /* Arrow icon for dropdown trigger */
+    .nav-links > li > a .arrow {
+      font-size: 0.6rem;
+      transition: transform var(--transition);
+      opacity: 0.6;
+    }
+
+    .nav-links > li:hover > a .arrow {
+      transform: rotate(180deg);
+    }
+
+    /* ── CTA Button ── */
+    .nav-cta a {
+      background: var(--cta-bg) !important;
+      color: #fff !important;
+      padding: 0.5rem 1.1rem !important;
+      border-radius: 8px !important;
+      font-weight: 600 !important;
+      font-size: 0.85rem !important;
+      box-shadow: 0 0 20px var(--accent-glow);
+      transition: opacity var(--transition), transform var(--transition), box-shadow var(--transition) !important;
+    }
+
+    .nav-cta a:hover {
+      opacity: 0.88;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 24px var(--accent-glow) !important;
+      background: var(--hover-bg) !important;
+    }
+
+    /* ══════════════════════════════════════
+       DROPDOWN MENU
+    ══════════════════════════════════════ */
+    .dropdown {
+      position: absolute;
+      top: calc(100% + 12px);
+      left: 50%;
+      transform: translateX(-50%) translateY(-8px);
+      background: var(--dropdown-bg);
+      border: 1px solid var(--nav-border);
+      border-radius: 12px;
+      padding: 0.5rem;
+      min-width: 180px;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity var(--transition), transform var(--transition), visibility var(--transition);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    }
+
+    /* tiny top arrow */
+    .dropdown::before {
+      content: '';
+      position: absolute;
+      top: -5px;
+      left: 50%;
+      transform: translateX(-50%) rotate(45deg);
+      width: 9px;
+      height: 9px;
+      background: var(--dropdown-bg);
+      border-left: 1px solid var(--nav-border);
+      border-top: 1px solid var(--nav-border);
+    }
+
+    .nav-links > li:hover .dropdown {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: all;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .dropdown a {
+      display: block;
+      padding: 0.6rem 0.9rem;
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      border-radius: 8px;
+      transition: background var(--transition), color var(--transition);
+    }
+
+    .dropdown a:hover {
+      background: var(--hover-bg);
+      color: var(--text-primary);
+    }
+
+    /* ══════════════════════════════════════
+       HAMBURGER  (hidden on desktop)
+    ══════════════════════════════════════ */
+    #menu-toggle { display: none; }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 8px;
+      transition: background var(--transition);
+    }
+
+    .hamburger:hover { background: var(--hover-bg); }
+
+    .hamburger .bar {
+      width: 22px;
+      height: 2px;
+      background: var(--text-primary);
+      border-radius: 2px;
+      transition: transform 0.35s cubic-bezier(0.4,0,0.2,1),
+                  opacity   0.25s ease,
+                  width     0.25s ease;
+      transform-origin: center;
+    }
+
+    .hamburger .bar:nth-child(2) { width: 16px; }
+
+    /* ══════════════════════════════════════
+       MOBILE STYLES  (≤ 768px)
+    ══════════════════════════════════════ */
+    @media (max-width: 768px) {
+
+      .hamburger { display: flex; }
+
+      /* Slide-down mobile menu */
+      .nav-links {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        position: absolute;
+        top: 64px;
+        left: 0;
+        width: 100%;
+        background: rgba(8,8,22,0.98);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--nav-border);
+        padding: 0.75rem 1rem 1rem;
+
+        /* Hidden state */
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        pointer-events: none;
+        transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1),
+                    opacity    0.3s ease,
+                    padding    0.3s ease;
+      }
+
+      /* ✨ Pure CSS toggle */
+      #menu-toggle:checked ~ .nav-links {
+        max-height: 500px;
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      .nav-links > li > a {
+        font-size: 1rem;
+        padding: 0.75rem 0.75rem;
+        border-radius: 10px;
+        color: var(--text-muted);
+      }
+
+      /* Dropdown becomes inline on mobile */
+      .dropdown {
+        position: static;
+        transform: none;
+        opacity: 1;
+        visibility: visible;
+        pointer-events: all;
+        display: none;
+        background: transparent;
+        border: none;
+        padding: 0 0 0 1rem;
+        box-shadow: none;
+        backdrop-filter: none;
+        border-left: 1px solid var(--nav-border);
+        margin: 0.25rem 0 0.5rem 1rem;
+        border-radius: 0;
+      }
+
+      .dropdown::before { display: none; }
+
+      .has-dropdown > a .arrow { display: inline; }
+
+      /* Show sub-links always on mobile */
+      .nav-links > li:hover .dropdown,
+      .nav-links > li .dropdown { display: none; }
+
+      .mobile-open .dropdown { display: block; }
+
+      .nav-cta {
+        margin-top: 0.5rem;
+        padding-top: 0.75rem;
+        border-top: 1px solid var(--nav-border);
+      }
+
+      .nav-cta a {
+        display: block;
+        text-align: center;
+        padding: 0.75rem 1rem !important;
+      }
+
+      /* Hamburger → X animation */
+      #menu-toggle:checked ~ .hamburger .bar:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+      }
+      #menu-toggle:checked ~ .hamburger .bar:nth-child(2) {
+        opacity: 0;
+        width: 0;
+      }
+      #menu-toggle:checked ~ .hamburger .bar:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+      }
+    }
+
+    /* ══════════════════════════════════════
+       HERO  (just to showcase navbar)
+    ══════════════════════════════════════ */
+    .hero {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 6rem 1.5rem 4rem;
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(124,110,255,0.12);
+      border: 1px solid rgba(124,110,255,0.25);
+      color: var(--accent);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.9rem;
+      border-radius: 100px;
+      margin-bottom: 1.75rem;
+    }
+
+    .hero h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(2.4rem, 6vw, 4.5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -1.5px;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero h1 .gradient {
+      background: linear-gradient(135deg, #7c6eff, #c65bff, #ff6b9d);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      max-width: 520px;
+      margin: 0 auto 2rem;
+      line-height: 1.7;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--cta-bg);
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 0.75rem 1.75rem;
+      border-radius: 10px;
+      box-shadow: 0 0 30px var(--accent-glow);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .hero-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 32px var(--accent-glow);
+    }
+
+    .note {
+      margin-top: 3rem;
+      padding: 1rem 1.5rem;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--nav-border);
+      border-radius: 12px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      max-width: 540px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+    }
+
+    .note code {
+      font-family: 'Courier New', monospace;
+      background: rgba(124,110,255,0.15);
+      color: var(--accent);
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- ════════════════════════════════════
+       NAVBAR
+  ════════════════════════════════════ -->
+  <nav class="navbar">
+    <div class="nav-inner">
+
+      <!-- Logo -->
+      <a href="#" class="logo">
+        <div class="logo-icon">✦</div>
+        Nova<span>UI</span>
+      </a>
+
+      <!-- ✨ Hidden checkbox toggle engine -->
+      <input type="checkbox" id="menu-toggle" />
+
+      <!-- Hamburger label (mobile only) -->
+      <label for="menu-toggle" class="hamburger" aria-label="Toggle menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </label>
+
+      <!-- Nav Links -->
+      <ul class="nav-links">
+
+        <li><a href="#" class="active">Home</a></li>
+
+        <!-- Dropdown item -->
+        <li class="has-dropdown">
+          <a href="#">
+            Products
+            <span class="arrow">▼</span>
+          </a>
+          <ul class="dropdown">
+            <li><a href="#">Analytics</a></li>
+            <li><a href="#">Dashboard</a></li>
+            <li><a href="#">Automation</a></li>
+            <li><a href="#">Integrations</a></li>
+          </ul>
+        </li>
+
+        <!-- Another dropdown -->
+        <li class="has-dropdown">
+          <a href="#">
+            Resources
+            <span class="arrow">▼</span>
+          </a>
+          <ul class="dropdown">
+            <li><a href="#">Documentation</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Community</a></li>
+          </ul>
+        </li>
+
+        <li><a href="#">Pricing</a></li>
+
+        <!-- CTA button -->
+        <li class="nav-cta">
+          <a href="#">Get Started →</a>
+        </li>
+
+      </ul>
+
+    </div><!-- /nav-inner -->
+  </nav>
+
+
+  <!-- ════════════════════════════════════
+       HERO  (context / showcase)
+  ════════════════════════════════════ -->
+  <section class="hero">
+    <div class="hero-badge">✦ Pure CSS &nbsp;·&nbsp; Zero JS Toggle</div>
+    <h1>
+      Build interfaces<br/>
+      <span class="gradient">that feel alive</span>
+    </h1>
+    <p>
+      A production-ready responsive navbar with glassmorphism,
+      dropdown menus, smooth animations — and a hamburger toggle
+      powered entirely by CSS.
+    </p>
+    <a href="#" class="hero-cta">Explore Components →</a>
+
+    <div class="note">
+      <strong>How the toggle works:</strong> A hidden
+      <code>&lt;input type="checkbox"&gt;</code> sits before the menu in the DOM.
+      Clicking the hamburger <code>&lt;label&gt;</code> checks it, and the CSS
+      selector <code>#menu-toggle:checked ~ .nav-links</code> reveals the menu —
+      zero JavaScript required.
+    </div>
+  </section>
+
+</body>
+</html>
