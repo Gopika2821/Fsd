@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Photo Gallery Grid</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      padding: 30px 20px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 28px;
+      margin-bottom: 24px;
+      color: #222;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-areas:
+        "rose     rose      lotus     lily"
+        "taj      indiagate indiagate lily"
+        "taj      qutub     thanjavur redfrt"
+        "flag     laptop    mouse     keyboard";
+      gap: 10px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .gallery-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+      background: #ddd;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.07);
+    }
+
+    .overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      top: 0;
+      background: rgba(0, 0, 0, 0.52);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+
+    .gallery-item:hover .overlay {
+      opacity: 1;
+    }
+
+    .overlay span {
+      color: #fff;
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+      text-align: center;
+      padding: 0 10px;
+    }
+
+    /* Grid area assignments */
+    .rose      { grid-area: rose;      height: 200px; }
+    .lotus     { grid-area: lotus;     height: 200px; }
+    .lily      { grid-area: lily;      height: 410px; }
+    .taj       { grid-area: taj;       height: 410px; }
+    .indiagate { grid-area: indiagate; height: 200px; }
+    .qutub     { grid-area: qutub;     height: 200px; }
+    .thanjavur { grid-area: thanjavur; height: 200px; }
+    .redfrt    { grid-area: redfrt;    height: 200px; }
+    .flag      { grid-area: flag;      height: 170px; }
+    .laptop    { grid-area: laptop;    height: 170px; }
+    .mouse     { grid-area: mouse;     height: 170px; }
+    .keyboard  { grid-area: keyboard;  height: 170px; }
+  </style>
+</head>
+<body>
+
+  <h1>Photo Gallery Grid</h1>
+
+  <div class="gallery">
+
+    <!-- Row 1 -->
+    <div class="gallery-item rose">
+      <img src="https://www.meyerlandscape.com/wp-content/uploads/2021/07/meyer-landscape-rose-care-red-roses-dark-background.jpg" alt="Rose">
+      <div class="overlay"><span>Rose</span></div>
+    </div>
+
+    <div class="gallery-item lotus">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVPnwLGpelYr-qC7htQXFlwlvdYAVh5ivaCw&s.jpg" alt="Lotus">
+      <div class="overlay"><span>Lotus</span></div>
+    </div>
+
+    <div class="gallery-item lily">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4bx26nMBdXZmKT38wn03_31KedW9aZ6McNg&s.jpg" alt="Lily">
+      <div class="overlay"><span>Lily</span></div>
+    </div>
+
+    <!-- Row 2 -->
+    <div class="gallery-item taj">
+      <img src="https://img.freepik.com/premium-photo/stunning-sunset-view-taj-mahal-reflecting-water_1177187-211573.jpg?semt=ais_hybrid&w=740&q=80.jpg" alt="Taj Mahal">
+      <div class="overlay"><span>Taj Mahal</span></div>
+    </div>
+
+    <div class="gallery-item indiagate">
+      <img src="https://s7ap1.scene7.com/is/image/incredibleindia/india-gate-delhi-4-attr-hero?qlt=82&ts=1742167548398.jpg" alt="India Gate">
+      <div class="overlay"><span>India Gate</span></div>
+    </div>
+
+    <!-- Row 3 -->
+    <div class="gallery-item qutub">
+      <img src="https://s7ap1.scene7.com/is/image/incredibleindia/qutab-minar-delhi-attr-hero?qlt=82&ts=1742169673469.jpg" alt="Qutub Minar">
+      <div class="overlay"><span>Qutub Minar</span></div>
+    </div>
+
+    <div class="gallery-item thanjavur">
+      <img src="https://t3.ftcdn.net/jpg/04/96/97/92/360_F_496979245_FfnxqWh0JvbbWtUbgXjZLw8HcGqPiE67.jpg" alt="Thanjavur Big Temple">
+      <div class="overlay"><span>Thanjavur Big Temple</span></div>
+    </div>
+
+    <div class="gallery-item redfrt">
+      <img src="https://tripguides.in/images/places/red-fort.jpg" alt="Red Fort">
+      <div class="overlay"><span>Red Fort</span></div>
+    </div>
+
+    <!-- Row 4 -->
+    <div class="gallery-item flag">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5SVNx6-XN5wPVYqlBefoUaoR0M3JCT2ABtg&s.jpg" alt="India Flag">
+      <div class="overlay"><span>India Flag</span></div>
+    </div>
+
+    <div class="gallery-item pine forest">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrC3yHJ5jrUXm8Xp-I76sX2mOkB-OEDN-fSw&s.jpg" alt="Pine Forest">
+      <div class="overlay"><span>Pine Forest</span></div>
+    </div>
+
+    <div class="gallery-item sunflower">
+      <img src="https://www.gardenia.net/wp-content/uploads/2024/01/shutterstock_2084235901.jpg" alt="Sunflower">
+      <div class="overlay"><span>Sunflower</span></div>
+    </div>
+
+    <div class="gallery-item dog">
+      <img src="https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=1200:*.jpg" alt="Dog">
+      <div class="overlay"><span>Dog</span></div>
+    </div>
+
+  </div>
+
+</body>
+</html>
