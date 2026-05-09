@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My WebPage</title>
+  <style>
+   
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Georgia', serif;
+      color: #1a1a2e;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    
+    .hero {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      color: white;
+      text-align: center;
+      padding: 60px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 60% 40%, rgba(229, 57, 53, 0.15) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-size: clamp(1.8rem, 6vw, 3.5rem);
+      margin-bottom: 16px;
+      line-height: 1.2;
+      letter-spacing: -0.5px;
+    }
+
+    .hero p {
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      margin-bottom: 32px;
+      opacity: 0.85;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cta-btn {
+      display: inline-block;
+      background: #e53935;
+      color: white;
+      padding: 14px 32px;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: bold;
+      font-size: 1rem;
+      min-height: 44px;
+      line-height: 1.2;
+      transition: background 0.2s ease, transform 0.1s ease;
+    }
+
+    .cta-btn:hover {
+      background: #c62828;
+      transform: translateY(-1px);
+    }
+
+
+    .features {
+      padding: 48px 20px;
+      background: #fff;
+    }
+
+    .features h2 {
+      text-align: center;
+      font-size: clamp(1.4rem, 4vw, 2rem);
+      margin-bottom: 32px;
+      color: #1a1a2e;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .feature-card {
+      padding: 24px;
+      border: 1px solid #e0e0e0;
+      border-radius: 10px;
+      background: #fafafa;
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+    .feature-card:hover {
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      transform: translateY(-2px);
+    }
+
+    .feature-card h3 {
+      margin-bottom: 10px;
+      font-size: 1.1rem;
+      color: #1a1a2e;
+    }
+
+    .feature-card p {
+      font-size: 0.95rem;
+      color: #555;
+    }
+
+  
+    .contact {
+      background: #f5f5f5;
+      padding: 48px 20px;
+    }
+
+    .contact h2 {
+      text-align: center;
+      font-size: clamp(1.4rem, 4vw, 2rem);
+      margin-bottom: 24px;
+      color: #1a1a2e;
+    }
+
+    .form-wrapper {
+      width: 100%;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    form label {
+      font-weight: bold;
+      font-size: 0.9rem;
+      color: #333;
+    }
+
+    form input,
+    form textarea {
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+      width: 100%;
+      font-family: inherit;
+      transition: border-color 0.2s;
+    }
+
+    form input:focus,
+    form textarea:focus {
+      outline: none;
+      border-color: #0f3460;
+      box-shadow: 0 0 0 3px rgba(15, 52, 96, 0.1);
+    }
+
+    form textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    form button {
+      padding: 14px;
+      background: #1a1a2e;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      min-height: 44px;
+      font-family: inherit;
+      transition: background 0.2s ease;
+    }
+
+    form button:hover {
+      background: #0f3460;
+    }
+
+  
+    @media (min-width: 600px) {
+      .hero {
+        padding: 80px 40px;
+      }
+
+      .feature-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+
+      .features {
+        padding: 60px 40px;
+      }
+
+      .contact {
+        padding: 60px 40px;
+      }
+
+      .form-wrapper {
+        max-width: 500px;
+        margin: 0 auto;
+      }
+    }
+    @media (min-width: 1024px) {
+      .hero {
+        padding: 120px 60px;
+      }
+
+      .features {
+        padding: 80px 60px;
+      }
+
+      .feature-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 24px;
+      }
+
+      .contact {
+        padding: 80px 60px;
+      }
+
+      .form-wrapper {
+        max-width: 600px;
+      }
+    }
+
+    
+    @media (min-width: 1440px) {
+      .features {
+        padding: 80px 80px;
+      }
+
+      .contact {
+        padding: 80px 80px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  
+  <section class="hero">
+    <div class="hero-inner">
+      <h1>Build Full Stack Applications</h1>
+      <p>Create powerful web applications using modern frontend and backend technologies with seamless performance and scalability.</p>
+      <a href="#" class="cta-btn">Get Started</a>
+    </div>
+  </section>
+
+
+  <section class="features">
+    <h2>Why Full Stack Development?</h2>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h3>💻 Frontend Development</h3>
+        <p>Design interactive and responsive user interfaces using HTML, CSS, and JavaScript to deliver a smooth user experience.</p>
+      </div>
+      <div class="feature-card">
+        <h3>⚙️ Backend Development</h3>
+        <p>Handle server-side logic, databases, and APIs to manage data efficiently and securely.</p>
+      </div>
+      <div class="feature-card">
+        <h3>🔗 Database Management</h3>
+        <p>Store, retrieve, and manage data using databases like MySQL or MongoDB for reliable application performance.</p>
+      </div>
+      <div class="feature-card">
+        <h3>🚀 Deployment & Performance</h3>
+        <p>Deploy applications to the web with optimized performance, ensuring fast load times and scalability.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact">
+    <h2>Get in Touch</h2>
+    <div class="form-wrapper">
+      <form action="#" method="post">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" placeholder="Your full name" required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="your@email.com" required>
+
+        <label for="msg">Message</label>
+        <textarea id="msg" name="msg" rows="5" placeholder="Tell us about your project"></textarea>
+
+        <button type="submit">Send Message</button>
+      </form>
+    </div>
+  </section>
+
+</body>
+</html>

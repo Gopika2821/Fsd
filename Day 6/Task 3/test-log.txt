@@ -1,0 +1,131 @@
+====================================================
+  RESPONSIVE LAYOUT TEST LOG
+  Page: responsive-test.html
+  Tester: QA Workflow
+====================================================
+
+----------------------------------------------------
+DEVICE 1: iPhone SE — 375px × 667px
+----------------------------------------------------
+
+ISSUE #1: Hero text overflow risk with fixed font size
+  - Problem : Used a fixed font-size: 2rem on .hero h1 which could overflow
+              or look disproportionate on narrow 375px screens.
+  - CSS Cause: .hero h1 { font-size: 2rem; }
+  - Fix Applied: Replaced with clamp() so font scales fluidly:
+                 font-size: clamp(1.8rem, 6vw, 3.5rem);
+  - Result : Text stays readable and never overflows the viewport.
+
+ISSUE #2: CTA button tap target too small
+  - Problem : The .cta-btn had padding but no explicit min-height, making it
+              potentially under 44px tall — Apple HIG minimum for tap targets.
+  - CSS Cause: No min-height set on .cta-btn
+  - Fix Applied: Added min-height: 44px to .cta-btn
+  - Result : Button is comfortably tappable on mobile.
+
+ISSUE #3: Form inputs could overflow on very narrow screens
+  - Problem : The original form had width: 100% on inputs, but without
+              box-sizing: border-box on the parent, padding could push
+              inputs wider than the viewport.
+  - CSS Cause: Missing box-sizing: border-box cascade, no overflow-x: hidden on body
+  - Fix Applied: Confirmed * { box-sizing: border-box } is set globally.
+                 Added overflow-x: hidden to body.
+                 Wrapped form in .form-wrapper div for better control.
+  - Result : No horizontal scroll at 375px.
+
+STATUS AT 375px:
+  ✓ Single column layout for all sections
+  ✓ No horizontal scroll
+  ✓ Hero text readable (clamp applied)
+  ✓ CTA button >= 44px tall
+  ✓ Form inputs are full-width
+  ✓ Cards stacked vertically
+
+----------------------------------------------------
+DEVICE 2: iPad Air — 820px × 1180px
+----------------------------------------------------
+
+ISSUE #4: Feature grid stayed single column above 600px
+  - Problem : Without a tablet breakpoint, the 4 feature cards remained
+              in a single column all the way up to 1024px — wasting space
+              on iPad.
+  - CSS Cause: No @media (min-width: 600px) breakpoint defined initially.
+  - Fix Applied: Added tablet breakpoint:
+                 @media (min-width: 600px) {
+                   .feature-grid { grid-template-columns: 1fr 1fr; }
+                 }
+  - Result : 2-column card layout activates at 600px+.
+
+ISSUE #5: Contact form too wide and uncentred on tablet
+  - Problem : Form stretched full width at 820px — looked awkward and hard
+              to read across the wide line length.
+  - CSS Cause: No max-width or centering on the form at tablet size.
+  - Fix Applied: Added to tablet breakpoint:
+                 .form-wrapper { max-width: 500px; margin: 0 auto; }
+  - Result : Form is centred with comfortable reading width on iPad.
+
+STATUS AT 820px:
+  ✓ 2-column feature card grid
+  ✓ Form centred with max-width: 500px
+  ✓ Hero padding increased (80px 40px)
+  ✓ No layout breakage from mobile styles
+
+----------------------------------------------------
+DEVICE 3: Desktop — 1440px × 900px
+----------------------------------------------------
+
+ISSUE #6: Feature grid showed only 2 columns at 1024px+
+  - Problem : At desktop sizes, 4 cards in 2 columns looked sparse and
+              wasted horizontal space.
+  - CSS Cause: The 2-column grid from tablet wasn't overridden for desktop.
+  - Fix Applied: Added desktop breakpoint:
+                 @media (min-width: 1024px) {
+                   .feature-grid { grid-template-columns: repeat(4, 1fr); }
+                 }
+  - Result : All 4 cards display in a single row at 1024px+.
+
+ISSUE #7: Features section not centred at very wide viewport (1440px)
+  - Problem : At 1440px, the features section stretched edge-to-edge,
+              making the card grid too wide and hard to scan.
+  - CSS Cause: No max-width on .features or .feature-grid.
+  - Fix Applied: Added max-width: 1200px; margin: 0 auto to .feature-grid
+                 so it stays centred with comfortable reading margins.
+  - Result : Cards are evenly spaced and centred within a 1200px container.
+
+ISSUE #8: Hero paragraph line length too long at 1440px
+  - Problem : The hero <p> text spanned the full width — extremely long
+              lines reduce readability.
+  - CSS Cause: No max-width on .hero p
+  - Fix Applied: Added max-width: 500px; margin-left: auto; margin-right: auto
+                 to .hero p so it stays centred and readable.
+  - Result : Comfortable line length at all desktop sizes.
+
+STATUS AT 1440px:
+  ✓ 4-column feature grid, evenly spaced
+  ✓ Hero heading at 3.5rem (clamp max), readable
+  ✓ Hero paragraph constrained to max-width: 500px
+  ✓ Feature section centred within max-width: 1200px
+  ✓ Form centred with max-width: 600px
+
+----------------------------------------------------
+BREAKPOINT TRANSITION TEST (599px → 600px)
+----------------------------------------------------
+  Tested at 599px: single column cards, full-width form ✓
+  Tested at 600px: 2-column cards, centred form activates ✓
+  Transition is clean — no layout jump or overflow.
+
+----------------------------------------------------
+SUMMARY OF ALL FIXES
+----------------------------------------------------
+  Fix 1  — clamp() on hero h1 font-size (prevents vw overflow)
+  Fix 2  — min-height: 44px on .cta-btn (accessibility tap target)
+  Fix 3  — box-sizing: border-box + overflow-x: hidden (no horizontal scroll)
+  Fix 4  — Tablet breakpoint: 2-column feature grid at 600px+
+  Fix 5  — Tablet breakpoint: form max-width + centred at 600px+
+  Fix 6  — Desktop breakpoint: 4-column feature grid at 1024px+
+  Fix 7  — max-width: 1200px on .feature-grid (prevents over-stretching)
+  Fix 8  — max-width: 500px on .hero p (comfortable line length)
+
+====================================================
+  FINAL RESULT: PASS — All checklist items satisfied
+====================================================
